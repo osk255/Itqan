@@ -9,6 +9,7 @@ Tick an item only with evidence: a command output, a screenshot or a link.
 
 ## Technical SEO
 - [ ] **The preview `X-Robots-Tag: noindex` has been removed from `netlify.toml`**
+- [ ] itqanpharma.com is set as the Netlify **primary domain**, so `URL` (and therefore canonicals, OG URLs and the sitemap) resolve to it, or `SITE_URL` is set
 - [ ] `robots.txt` on the production domain allows Googlebot, Bingbot and OAI-SearchBot, with the GPTBot policy set as the client decided, and lists the sitemap URL
 - [ ] `sitemap.xml` lists only canonical URLs that return 200 and are indexable
 - [ ] Every page has a unique title and description, a self-canonical URL on the production domain, and OG/Twitter tags with absolute image URLs

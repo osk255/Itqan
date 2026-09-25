@@ -1,39 +1,42 @@
 # Itqan Pharmaceutical Industries: website
 
-This is the redesign of [itqanpharma.com](https://itqanpharma.com/) for a pharmaceutical manufacturer in Amman, Jordan.
+This is the redesign of [itqanpharma.com](https://itqanpharma.com/) for a pharmaceutical manufacturer in Amman, Jordan. It's a fast, static Next.js site that recreates the Claude Design handoff exactly.
 
-**Status:** Phase 1 is a design preview on Netlify, for feedback. The production build (Phase 2) hasn't started yet. See [docs/ROADMAP.md](docs/ROADMAP.md).
+**Status:** the Phase 2 production build is live as a preview at https://courageous-caramel-8493e6.netlify.app. The preview is `noindex`. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
-## View the preview
+## Commands
 
-- **Online:** the Netlify URL, once connected. Setup steps are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
-- **Locally:** run `npx netlify-cli dev --offline`, then open <http://localhost:8888>.
+```bash
+npm install
+npm run dev        # local dev server, http://localhost:3000
+npm run check      # lint + typecheck + production build; run before pushing
+npm run images     # regenerate optimised images from the handoff originals
+```
 
-Pages: `/` · `/about` · `/products` · `/business-cooperation` · `/contact` · `/mobile` (all pages in phone frames) · `/brand`
+Netlify builds with `npm run build` and publishes `out/`; see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Pages (the live site's URLs are kept)
+
+`/` · `/about-us/` · `/all-products/` · `/product-category/<slug>/` · `/products/<slug>/` · `/business-cooperation/` · `/contact-us/` · `/brand/` (internal)
 
 ## Repository layout
 
 ```
-netlify.toml                    Netlify config (publish dir, clean URLs, noindex, headers)
-design_handoff_itqan_website/   Claude Design handoff. FROZEN reference, do not edit
-  README.md                     Full design spec: tokens, components, motion, 3D logo, data
-  site/                         Runnable HTML prototype (what the preview serves)
-docs/
-  ROADMAP.md                    Phases 0–6 and what's needed to start each
-  PROJECT_STATE.md              Current state, known issues, constraints
-  DEPLOYMENT.md                 Netlify setup, sharing, DNS/email-safe domain cutover
-  DECISIONS.md                  Architecture decision records
-  CLIENT_QUESTIONS.md           Facts only Itqan can confirm (never invented)
-  FEEDBACK.md                   Reviewer prompts and feedback log
-  ARCHITECTURE.md · SECURITY.md · ASSUMPTIONS.md
-  seo/                          Entity map, redirect map (draft), launch checklist
-  governance/                   Project directive and engineering/SEO constitutions
-HANDOVER.md                     Latest session handover for the next engineer or agent
+src/app/                        pages (App Router), global CSS, sitemap, robots, 404
+src/components/                 site chrome, UI primitives, sections, client islands
+src/lib/catalogue.ts            all product and company content (single source)
+src/lib/site.ts · seo.ts        routes, contacts, metadata and JSON-LD builders
+scripts/optimize-images.mjs     image pipeline → public/images + manifest
+public/                         optimised images, Netlify Forms definition, brand 3D tool
+netlify.toml                    build, redirects, headers
+design_handoff_itqan_website/   Claude Design handoff. FROZEN visual reference, never edit
+docs/                           roadmap, state, decisions, deployment, SEO, governance
+HANDOVER.md                     latest session handover for the next engineer or agent
 ```
 
 ## Rules that matter most
 
-1. **No invented facts.** Certifications, approvals, capacity, ingredients and indications appear only once Itqan confirms them. See [docs/CLIENT_QUESTIONS.md](docs/CLIENT_QUESTIONS.md).
-2. **Don't edit the handoff.** Design changes come back from Claude Design as a new handoff.
-3. **Keep the preview out of search.** Every deploy sends `noindex` until production launch.
-4. **Protect Itqan's email.** DNS changes follow the checklist in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+1. **No invented facts.** Certifications, approvals, capacity, ingredients and indications appear only once Itqan confirms them ([docs/CLIENT_QUESTIONS.md](docs/CLIENT_QUESTIONS.md)).
+2. **Don't edit the handoff.** Design changes come back from Claude Design. Deviations made for accessibility are listed in ADR-011.
+3. **Keep previews out of search.** Every deploy sends `noindex` until launch.
+4. **Protect Itqan's email.** DNS changes follow [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md), Phase 5.

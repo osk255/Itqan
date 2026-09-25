@@ -1,27 +1,30 @@
 # Security
 
-## Phase 1 preview: what is in place
+## In place (2026-09-25)
 
-- **Static files only.** There is no server code, no secrets and no environment variables, and no user data is collected. The contact form opens the visitor's own mail app.
+- **Static site.** There is no server code, database, auth or secrets, and no environment variables are required. The attack surface is the CDN and one form.
 - **Headers** from `netlify.toml`:
-  - `X-Content-Type-Options: nosniff` and `Referrer-Policy: strict-origin-when-cross-origin`;
-  - `X-Frame-Options: SAMEORIGIN`, which still allows the same-origin iframes on `/mobile`;
+  - `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`;
+  - `X-Frame-Options: SAMEORIGIN`;
   - a `Permissions-Policy` that denies camera, microphone and geolocation;
-  - `X-Robots-Tag: noindex, nofollow`.
-- **HTTPS** is provided by Netlify on `*.netlify.app`.
+  - `X-Robots-Tag: noindex, nofollow` until launch.
+- **HTTPS:** Netlify serves every page over HTTPS.
+- **Third-party scripts:** none on the public pages. No analytics yet, and fonts are self-hosted.
+- **Enquiry form:**
+  - Browser validation, then Netlify Forms spam filtering and a honeypot (`bot-field`).
+  - Only name, email and message are required; company, phone and product are optional.
+  - No personal data goes in URLs, except the product name used to prefill the form. No personal data goes to analytics.
+- **Dependencies:** `npm audit` reports 0 vulnerabilities (2026-09-25). Versions are locked by `package-lock.json`.
+- **JSON-LD:** built from constants only, with `<` escaped.
 
-## Residual risks, accepted for a short-lived preview
+## Residual risks
 
-- **Third-party runtime scripts.** The pages execute JavaScript from unpkg.com: React, Babel standalone and three.js, with pinned versions but no Subresource Integrity. A compromised CDN could run code on the preview. Phase 2 bundles everything and removes this.
-- **No CSP.** Babel standalone compiles in the browser and needs `unsafe-eval`, plus inline scripts, so a Content-Security-Policy would add little. It will be added in Phase 4, once runtime compilation is gone.
+- **Form spam.** Netlify Forms offers no custom server-side validation or rate limiting. If abuse appears, add a Netlify Function or reCAPTCHA (ROADMAP Phase 4).
+- **No Content-Security-Policy yet.** Next.js static export relies on inline scripts (RSC payload, theme boot script), so a strict CSP needs hashes. Evaluate in Phase 4.
+- **The internal brand tool** (`/brand/Logo3D.html`) loads three.js from unpkg, pinned with SRI integrity hashes. Public pages do not.
 
-## Production baseline (Phase 4)
+## Production additions (Phase 4–5)
 
-- A CSP that allows only self, plus analytics hosts if they are approved. HSTS on the custom domain.
-- **Form:**
-  - Netlify Forms with a honeypot and spam filtering.
-  - Collect only name, email and message; company, phone and product are optional.
-  - No personal data in analytics events or URLs, beyond the product name used to prefill the form.
-- `npm audit` in CI. Dependency updates reviewed before merge.
-- No secrets in the repo. Any keys go in Netlify environment variables and must never use the `NEXT_PUBLIC_` prefix unless they are genuinely public.
-- **DNS/email safety:** see DEPLOYMENT.md, Phase 5.
+- HSTS on the custom domain, once HTTPS is confirmed on both the apex and `www`.
+- CSP, if the hash-based approach proves maintainable.
+- DNS and email safety: see DEPLOYMENT.md, Phase 5.

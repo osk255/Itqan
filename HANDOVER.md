@@ -2,51 +2,80 @@
 
 Read this first, then [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and [docs/ROADMAP.md](docs/ROADMAP.md).
 
-## Latest session: 2026-09-25 (Claude Code): Phase 0 and Phase 1 config
+## Latest session: 2026-09-25 (Claude Code): Phase 2 production build
+
+### Why
+The owner found the prototype preview slow, especially at the start and on phones. They asked for it to be faster and more mobile-friendly **without changing the design**. They answered the Phase 2 decisions:
+- No existing Next.js project, so create one.
+- Keep the live URLs.
+- No Arabic at launch.
+
+### Diagnosis (measured)
+Simulated mid-range phone (4× CPU slowdown, 150 ms RTT, 1.6 Mbps):
+- The prototype showed a **blank screen for about 1.5 s** and text at about 2.5–4 s, because it downloads and runs a 3 MB in-browser Babel compiler before rendering.
+- The 3D logo had not appeared by 8 s.
+- The load event came at 12–13 s.
+- A fully scrolled products page downloaded **21.7 MB**, mostly PNGs of up to 3.4 MB each.
 
 ### What changed
-- The repo was empty. It now contains the Claude Design handoff, committed **byte-identical** to the owner's zip (checked with `diff -r`).
-- A root `netlify.toml` publishes `design_handoff_itqan_website/site`. It provides:
-  - clean URLs;
-  - `force = true` on `/`, which fixes the designer's rule being shadowed by `index.html`;
-  - a `/mobile` 302 to the phone-frame board;
-  - a preview-wide `X-Robots-Tag: noindex, nofollow`;
-  - security headers.
-- The governance docs are in `docs/governance/`, including the owner's project directive.
-- New planning and continuity docs:
-  - `docs/ROADMAP.md`, `DEPLOYMENT.md`, `DECISIONS.md`, `PROJECT_STATE.md`, `ASSUMPTIONS.md`, `CLIENT_QUESTIONS.md`, `FEEDBACK.md`, `ARCHITECTURE.md`, `SECURITY.md`;
-  - `docs/seo/ENTITY_MAP.md`, `REDIRECT_MAP.md` (draft) and `LAUNCH_CHECKLIST.md`.
-- `README.md`, `CLAUDE.md`, `AGENTS.md` and `.gitignore`.
+- **New Next.js app at the repo root**, a static export (`src/`, `package.json`, `next.config.ts`, etc.).
+  - Every page is recreated from the handoff specs on the live URLs.
+  - The component map is in PROJECT_STATE.
+- **Image pipeline** (`scripts/optimize-images.mjs`):
+  - Output: `public/images/**` (4.6 MB total, originally 24 MB), `public/og.png`, `src/app/icon.png` and `src/app/apple-icon.png`.
+  - It also copies the designer's GLB/OBJ viewer into `public/brand/`.
+- **Contact form:** now posts to Netlify Forms (`public/__forms.html`).
+- **`netlify.toml`** changes:
+  - Build with `npm run build`, publish `out/`, and skip the Next adapter.
+  - 301s for `/about`, `/contact` and `/products` and for all old prototype URLs.
+  - noindex and security headers, plus cache headers.
+- **Docs:** ROADMAP, PROJECT_STATE, DECISIONS (ADR-005 accepted; ADR-006–012 new), DEPLOYMENT, ARCHITECTURE, SECURITY, CLIENT_QUESTIONS, ASSUMPTIONS, REDIRECT_MAP, README and CLAUDE.md.
 
-### Decisions
-ADR-001 to ADR-004 are accepted. ADR-005 (URL strategy) is proposed and waiting on the owner.
+### Results (measured on the same simulation)
+- **First content** in about **1.3 s**, with the full hero by 2 s.
+- The **3D logo** starts flying in at about 4–5 s. It loads after the content, when the browser is idle.
+- **Products page:** 21.7 MB → **1.8 MB**. Home page: about 1.7 MB on a phone, including all JS.
+- **JavaScript:** about 180 KB gzipped for Next/React (async, not render-blocking), plus 130 KB gzipped of three.js on the home page only.
 
 ### Tests performed
-- **Routing:** `netlify-cli dev` (v27.10.0) with this `netlify.toml`.
-  - These return 200 with the correct page title: `/`, `/about`, `/about/`, `/products`, `/products/`, `/business-cooperation`, `/contact`, `/contact?type=cooperation`, `/brand`.
-  - `/mobile` returns 302 then 200.
-  - The per-folder `support.js`, `/shared/catalogue.js` and `/assets/*` all return 200.
+- `npm run lint`, `tsc --noEmit` and `next build` are clean: **47 static pages**. `npm audit`: 0 vulnerabilities.
+- Clean `npm ci` + `netlify build --offline` from a fresh copy passes, and the Next.js plugin is skipped as intended.
+- **Routes and redirects** via `netlify dev` against `out/`:
+  - All pages return 200.
+  - The directive aliases and every prototype URL return 301, `?c=` and `?p=` included.
+  - Unknown URLs return 404 with the site's 404 page.
   - The headers are present.
-- **Rendering:** Playwright with the bundled Chromium. unpkg is blocked in this sandbox, so the identical package versions (react 18.3.1, react-dom 18.3.1, @babel/standalone 7.29.0, three 0.184.0) were served from npm.
-  - 7 pages × 8 widths (320–1440 px): **0 horizontal overflow, 0 broken images, correct `<h1>` on every page.** The 3D canvas mounts on `/` and `/brand`.
-  - The only console error is the known `{{ p.image }}` 404 on the product page.
-  - Screenshots were checked visually at 390 and 1440 px.
-- **Interaction:**
-  - Nav click-through from the clean URLs works.
-  - Product card → product page works.
-  - The mobile menu opens with 8 links, and Esc closes it.
-- **Not tested:**
-  - A real Netlify deploy. There is no Netlify credential in this environment, so the owner connects the repo (DEPLOYMENT.md).
-  - The live itqanpharma.com. The network policy blocked it.
-  - Kev/Jev review. The local endpoint `127.0.0.1:8009` is not reachable from this cloud container.
+- **Fidelity:** full-page screenshots, prototype vs new, at 390 and 1440 px, in dark and light themes.
+  - Page heights are identical on 13 of 16 page/width pairs; home differs by 1 px.
+  - Category pages are 24 px taller on mobile because of the richer breadcrumb (ADR-011).
+  - Pixel diffs are ≤ 0.7% on most segments. The remaining differences are 1 px offsets, and prototype images that hadn't finished loading.
+- **Layout sweep:** 10 routes × 9 widths (320–1920) × 2 themes = 180 loads, with **no horizontal overflow, no console errors and no undersized tap targets**.
+- **Interactions: 37/37 pass.**
+  - Mobile menu: open, Esc, scroll lock.
+  - Theme toggle and persistence.
+  - Home tabs, including arrow keys.
+  - Product filter: URL, title, breadcrumb and back button.
+  - Product rows omit unknown data.
+  - Contact: prefill, three validation messages, focus, a valid Netlify POST body, and the success and failure states.
+  - Skip link, page-transition fade, 404.
+- **Accessibility:** axe-core (WCAG 2.1 AA plus best practice) reports **0 violations** on 6 pages × 2 themes, after two fixes to issues inherited from the prototype (ADR-011).
 
-### Unresolved and client information needed
-- See [docs/CLIENT_QUESTIONS.md](docs/CLIENT_QUESTIONS.md). The top items are Arabic, the existing `itqan-pharma/` Next.js project, and DNS/email ownership.
-- Prototype known issues are listed in PROJECT_STATE.
+### Not tested / limits
+- **Live Netlify deploy and link previews.** This sandbox's network policy blocks `*.netlify.app` and `itqanpharma.com`.
+  - Confirm the next deploy on Netlify.
+  - Run `curl -I https://<site>/_next/static/...` to check the cache headers.
+- **Real Netlify Forms submission.** It needs form detection enabled in Netlify. The client side is tested with a mocked endpoint.
+- **Real devices.** All device testing used Chromium emulation.
+- **Kev/Jev.** Its endpoint (`127.0.0.1:8009`) is not reachable from this cloud container.
+
+### Client information still needed
+See [docs/CLIENT_QUESTIONS.md](docs/CLIENT_QUESTIONS.md). New since the last session:
+- #18: confirm the "Manufacturer" row on product pages.
+- #19: live category slugs.
 
 ### Next recommended action
-1. **Owner:** connect `osk255/Itqan` in Netlify (DEPLOYMENT.md, "One-time setup") and share the URL together with the FEEDBACK.md prompts.
-2. **Owner:** answer the three Phase 2 decisions in ROADMAP.md.
+1. **Owner:** check the redeployed preview on a phone, then enable **Forms → form detection** in Netlify and add an email notification (DEPLOYMENT.md).
+2. **Owner:** allow `itqanpharma.com` in the environment's network settings so the next session can crawl the live site for the redirect map (Phase 3).
 3. **Next agent:**
-   - Once the decisions are in, start Phase 2 in a new top-level app folder. Leave `design_handoff_itqan_website/` untouched as the reference.
-   - Switch `netlify.toml` from the static publish directory to the Next.js build in the same PR that makes the new app deployable.
+   - Phase 3 SEO/GEO work from the crawl.
+   - Relay the ADR-011 design notes and the stale "Funnel" type copy to Claude Design.

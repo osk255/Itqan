@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/* Design tokens: design_handoff_itqan_website/README.md › Design Tokens.
+   Dark is the default; the inline script in <head> sets data-theme before paint. */
+:root {
+  --ink: #0e0a12;
+  --bone: #f3efe8;
+  --plum: #52276f;
+  --lime: #bcd155;
+  --sky: #1ea9e0;
+  --bg: #0e0a12;
+  --bg-2: #161019;
+  --fg: #f3efe8;
+  --mute: #a9a0b2;
+  --line: rgba(243, 239, 232, 0.14);
+  --chip: rgba(243, 239, 232, 0.06);
+  --accent: #f3efe8;
+  --on-accent: #0e0a12;
+  --hi: #cfe07a;
+  --label: #5cc3ec;
+  --scroll: #6b3a90;
+  --panel: #f3efe8;
+  --on-panel: #1a1020;
+  --panel-mute: #5f566a;
+  --panel-line: rgba(26, 16, 32, 0.14);
+  --glow: rgba(123, 69, 163, 0.32);
+}
+
+html[data-theme="light"] {
+  --bg: #f6f3ee;
+  --bg-2: #ece7df;
+  --fg: #1a1020;
+  --mute: #5d5468;
+  --line: rgba(26, 16, 32, 0.13);
+  --chip: rgba(26, 16, 32, 0.05);
+  --accent: #52276f;
+  --on-accent: #ffffff;
+  --hi: #52276f;
+  --label: #0d6c93;
+  --scroll: #52276f;
+  --panel: #140d19;
+  --on-panel: #f3efe8;
+  --panel-mute: #a9a0b2;
+  --panel-line: rgba(243, 239, 232, 0.14);
+  --glow: rgba(82, 39, 111, 0.14);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-bone: var(--bone);
+  --color-plum: var(--plum);
+  --color-lime: var(--lime);
+  --color-sky: var(--sky);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-mute: var(--mute);
+  --color-line: var(--line);
+  --color-chip: var(--chip);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-hi: var(--hi);
+  --color-label: var(--label);
+  --color-panel: var(--panel);
+  --color-on-panel: var(--on-panel);
+  --color-panel-mute: var(--panel-mute);
+  --color-panel-line: var(--panel-line);
+  --font-sans: var(--font-host), system-ui, sans-serif;
+  /* Page side padding used by every container. */
+  --spacing-gutter: clamp(20px, 4vw, 56px);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+@layer base {
+  /* The prototype relies on browser defaults (line-height: normal, underlined
+     links in --hi); restore them over Tailwind's preflight. Utilities win over
+     this layer, matching the prototype's inline-style precedence. */
+  html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+    line-height: normal;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll) var(--bg);
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    line-height: normal;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition:
+      background-color 0.5s,
+      color 0.5s;
+  }
+  a {
+    color: var(--hi);
+    text-decoration: underline;
+  }
+  a:hover {
+    color: var(--fg);
+  }
+  ::selection {
+    background: var(--lime);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--sky);
+    outline-offset: 3px;
+  }
+  button {
+    cursor: pointer;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scroll);
+    border-radius: 999px;
+    border: 2px solid var(--bg);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sky);
+  }
+}
+
+/* Horizontal scrollers (tabs, filters, carousels) hide their scrollbar. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Theme-dependent swaps (logos, the theme toggle label) resolved in CSS, so the
+   first paint is already correct and React never re-renders for the theme. */
+html[data-theme="light"] [data-logo="dark"],
+html:not([data-theme="light"]) [data-logo="light"],
+html[data-theme="light"] [data-when="dark"],
+html:not([data-theme="light"]) [data-when="light"] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion (README › Interactions & Motion). Intro motion is pure CSS so it runs
+   on first paint without waiting for JavaScript. Scroll-driven motion is set up
+   by <SiteRuntime>. Everything is off under prefers-reduced-motion.
+   --------------------------------------------------------------------------- */
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise-line {
+  from {
+    transform: translateY(105%);
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+@keyframes mask-in {
+  from {
+    clip-path: inset(100% 0 0 0 round 24px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 24px);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    animation: page-in 0.5s ease-out;
+  }
+  /* Headline lines rise inside their clipped row: 1150ms, 110ms stagger, 150ms delay. */
+  [data-line] {
+    animation: rise-line 1.15s var(--ease-expo) both;
+    animation-delay: calc(150ms + var(--i, 0) * 110ms);
+  }
+  /* Above-the-fold reveals: same motion as data-reveal="up", started by CSS. */
+  [data-intro] {
+    animation: reveal-up 0.9s var(--ease-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  [data-intro="mask"] {
+    animation-name: mask-in;
+    animation-duration: 1.3s;
+  }
+  /* Scroll reveals stay hidden until SiteRuntime arms them (only when JS runs). */
+  html.js [data-reveal]:not([data-armed]) {
+    opacity: 0;
+  }
+  html.js [data-words] > span {
+    opacity: 0.18;
+  }
+  [data-marquee] {
+    animation: marquee var(--marquee-duration, 60s) linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

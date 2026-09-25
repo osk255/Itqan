@@ -2,73 +2,57 @@
 
 Hosting: **Netlify** (chosen by the project owner; see ADR-002 in [DECISIONS.md](DECISIONS.md)).
 
-## Phase 1: Design preview (current)
+## Current setup: the Next.js site on Netlify
 
-### What gets deployed
+- **Site:** https://courageous-caramel-8493e6.netlify.app. It deploys from branch `claude/sharp-turing-9bb810`, the repo's only branch, and every push redeploys automatically.
+- **Config:** [`netlify.toml`](../netlify.toml) at the repo root, which overrides the settings in the Netlify UI:
+  - build command `npm run build`, publish directory `out`, Node 22;
+  - `NETLIFY_NEXT_PLUGIN_SKIP=true`, because the site is a plain static export (ADR-006);
+  - 301 redirects, the preview `noindex` header, security headers and cache headers.
+- **Environment variables:** none are required. `SITE_URL` is optional; without it, canonical URLs use Netlify's `URL`, the site's primary address (ADR-012).
+- Netlify installs dependencies with `npm ci` from `package-lock.json`. The build takes about 20 s.
 
-- **What:** `design_handoff_itqan_website/site/`, exactly as the designer delivered it. There is no build step.
-- **Config:** the root [`netlify.toml`](../netlify.toml). It sets the publish directory, clean URLs, the `noindex` header and basic security headers.
-- `design_handoff_itqan_website/site/netlify.toml` is the designer's original file. Git deploys ignore it because Netlify reads the root file.
+### One-time owner actions in the Netlify UI
 
-### One-time setup (about 3 minutes)
-
-1. Sign in at <https://app.netlify.com>. Signing up with GitHub is easiest.
-2. **Add new project → Import an existing project → GitHub**. Authorise Netlify, then pick **`osk255/Itqan`**.
-   - If the repo is not listed, choose "Configure the Netlify app on GitHub" and grant access to it.
-3. **Branch to deploy:** `main`.
-   - If `main` doesn't exist yet, first create it on GitHub from `claude/sharp-turing-9bb810`: Branches → New branch → source `claude/sharp-turing-9bb810`.
-   - Alternatively, pick `claude/sharp-turing-9bb810` directly in Netlify for now.
-4. Leave **Build command** empty. The **Publish directory** is read from `netlify.toml` (`design_handoff_itqan_website/site`); if the form shows a field, enter that.
-5. Click **Deploy**. After about 30 s you get a URL like `https://<random-name>.netlify.app`.
-6. Optional: **Project configuration → Change project name** to get a readable URL, e.g. `itqan-preview.netlify.app`.
-
-After this, every push to the deploy branch redeploys automatically. Every pull request gets its own **deploy preview** URL, which makes it easy to compare "before" and "after" with friends.
+1. **Enable the contact form.** Go to **Project configuration → Forms → Enable form detection**, then trigger a new deploy (Deploys → Trigger deploy).
+   - Newer Netlify sites have detection off by default. Without it, enquiries fail and the form shows the email/phone fallback.
+2. **Get form submissions by email.** Go to **Forms → Form notifications → Add notification → Email notification**, choose form `enquiry`, and enter the address Itqan picks (CLIENT_QUESTIONS #7).
+   - Until this is set, submissions are only visible under **Forms** in Netlify.
+3. Optional: **Project configuration → Change project name** for a readable URL (e.g. `itqan-preview.netlify.app`). Old links to the random name keep working as redirects.
 
 ### URLs to share
 
 | Page | Path |
 |---|---|
 | Home (3D logo scroll scene) | `/` |
-| About Us | `/about` |
-| Products (filter with `?c=health-wellness` etc.) | `/products` |
-| One product | `/products/Product.dc.html?p=etoria` |
-| Business Cooperation | `/business-cooperation` |
-| Contact Us | `/contact` |
-| All six pages in phone frames (best on a laptop) | `/mobile` |
-| Brand sheet (internal) | `/brand` |
+| About Us | `/about-us/` |
+| Products | `/all-products/` |
+| One category | `/product-category/health-wellness/` |
+| One product | `/products/etoria/` |
+| Business Cooperation | `/business-cooperation/` |
+| Contact Us | `/contact-us/` |
+| Brand sheet (internal) | `/brand/` |
 
-Clicking links inside the prototype shows file-style URLs such as `/products/Products.dc.html`. That's expected for the prototype; the production build has clean URLs throughout.
+Links from the old prototype preview (`/home/Home.dc.html`, `/products/Product.dc.html?p=etoria`, `/mobile`, …) redirect to their new pages.
 
 ### Before you share, tell reviewers
 
-- It's a design prototype. It loads its libraries at runtime and uses uncompressed images, so it is slower than the final site will be.
-- The contact form opens an email to **info@itqanpharma.com**, which is Itqan's real inbox. Don't send it.
-- Try both **Light/Dark** (top right), and scroll slowly on the home page.
+- The contact form sends real enquiries to the Netlify dashboard (and to the notification email, once one is set). Ask testers to write "TEST" in the message.
+- Try **Light/Dark** (top right), and scroll slowly through the home page.
 
 ### Search engines
 
-Every response carries `X-Robots-Tag: noindex, nofollow`, so Google and Bing will not index the preview even if the link is posted publicly. Don't add a `robots.txt` Disallow: that would stop crawlers from ever seeing the noindex header.
+Every response carries `X-Robots-Tag: noindex, nofollow`, so Google and Bing will not index the preview even if the link is posted publicly. `robots.txt` allows crawling on purpose, so crawlers can see that header. Remove the header only at launch (Phase 5).
 
-### Local preview
-
-Use Netlify's CLI to get the same URL rules as production:
+### Local development
 
 ```bash
-npx netlify-cli dev --offline      # serves http://localhost:8888 using netlify.toml
+npm install
+npm run dev          # http://localhost:3000, hot reload
+npm run check        # lint + typecheck + production build (run before every push)
+npm run images       # regenerate public/images after changing an original asset (~3 min)
+npx netlify-cli dev --offline --framework "#static" --dir out   # serve the built site with netlify.toml rules
 ```
-
-Or open `design_handoff_itqan_website/site/home/Home.dc.html` directly in a browser.
-
-### Known environment limits
-
-- The pages load React, Babel and three.js from `unpkg.com`, and fonts from Google Fonts. A network that blocks unpkg sees unrendered `{{ }}` templates. Phase 2 removes these runtime CDN dependencies.
-- There is no custom 404 page in the prototype, so Netlify's default 404 is shown.
-
-## Phase 2+: Production (planned)
-
-- **Build and runtime:** Next.js built by Netlify, with the adapter auto-detected and the build command `npm run build`. Pages are statically generated.
-- **Forms:** Netlify Forms (see ROADMAP Phase 4).
-- **Environment variables:** none are required for the static site. If analytics or form functions later need keys, they go in Netlify → Environment variables, never in the repo.
 
 ## Phase 5: Domain cutover (DNS and email safety)
 

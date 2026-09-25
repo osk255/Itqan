@@ -8,8 +8,8 @@ Status key: **Open** · **Answered** (record the answer and its source) · **Dro
 
 | # | Question | Why it matters | Status |
 |---|---|---|---|
-| 1 | Is an **Arabic version** needed at launch? | It changes routing, layout (RTL) and scope | Open |
-| 2 | Does the Next.js project `itqan-pharma/` mentioned in the design handoff still exist? | Build on it instead of starting fresh | Open (question for the owner) |
+| 1 | Is an **Arabic version** needed at launch? | It changes routing, layout (RTL) and scope | **Answered:** no, English only at launch (owner, 2026-09-25) |
+| 2 | Does the Next.js project `itqan-pharma/` mentioned in the design handoff still exist? | Build on it instead of starting fresh | **Answered:** no, so a new one was created (owner, 2026-09-25) |
 | 3 | Who controls the **itqanpharma.com DNS**, and which provider hosts the corporate email? | Needed to cut over safely without breaking email | Open |
 | 4 | May we access **Google Search Console** for itqanpharma.com, or can we be added to it? | Shows which old URLs actually carry traffic, for the redirect map | Open |
 | 5 | Should AI **training** crawlers (e.g. GPTBot) be allowed? AI **search** crawlers (OAI-SearchBot) will be allowed. | Robots policy is the client's decision | Open |
@@ -35,3 +35,5 @@ Status key: **Open** · **Answered** (record the answer and its source) · **Dro
 | 15 | Approved markets, verbatim from the current site: "Jordan, Iraq, Lebanon, Sudan, Yemen, Libya, Kazakhstan and centrally in GCC and nationally in Kuwait, UAE, Oman". Registration "in process" with Swissmedic and the EU. Is this still current? | Open |
 | 16 | A full street address for the Amman facility, for Organization schema and Google Business Profile | Open |
 | 17 | Official social profiles beyond Facebook and LinkedIn, for `sameAs` | Open |
+| 18 | Product pages show **"Manufacturer: Itqan Pharmaceutical Industries, Amman — Jordan"** (from the design). Is Itqan the manufacturer of all 27 products, or are some licensed or distributed? This is a medical and corporate fact that appears on 27 pages. | Open |
+| 19 | The live site's **category and product URLs**. The new site uses `/product-category/<slug>/` with the design's slugs (e.g. `cns`, `otc`). If the live slugs differ, they need 301s to protect existing search rankings. | Open (needs the crawl or Search Console) |

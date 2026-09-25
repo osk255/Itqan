@@ -5,7 +5,7 @@ Use this during the Phase 1b feedback round. Open-ended "what do you think?" get
 ## Send reviewers this
 
 > Here's a preview of the new Itqan Pharma website: **<netlify URL>**
-> It's a design prototype, so it's slower than the final site will be. Please don't submit the contact form (it goes to Itqan's real inbox).
+> If you try the contact form, please write "TEST" in the message.
 > Try it on your phone and, if you can, on a laptop. Toggle Light/Dark at the top right.
 >
 > 1. What does Itqan do? Answer in one sentence, after 10 seconds on the home page.

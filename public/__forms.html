@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Form definitions</title>
+</head>
+<body>
+<!-- Netlify Forms reads this static form at deploy time to register the "enquiry"
+     form and its fields. The visible form on /contact-us/ posts here with fetch().
+     Keep the field list in sync with src/components/contact/ContactForm.tsx. -->
+<form name="enquiry" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="enquiry">
+  <input name="bot-field">
+  <input name="type">
+  <input name="name">
+  <input name="company">
+  <input name="email">
+  <input name="phone">
+  <input name="product">
+  <textarea name="message"></textarea>
+</form>
+</body>
+</html>

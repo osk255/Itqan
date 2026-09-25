@@ -16,15 +16,23 @@
 
 ## Known live URL patterns (from the design handoff)
 
-The rows marked "if ADR-005 accepted" depend on the proposed URL strategy.
+ADR-005 was accepted on 2026-09-25: the live URLs are kept, and the new site already serves them.
 
 | Old URL | New URL | Action | Notes |
 |---|---|---|---|
 | `/` | `/` | PRESERVE | |
-| `/about-us` | `/about-us` | PRESERVE (if ADR-005 accepted) | |
-| `/all-products` | `/all-products` | PRESERVE (if ADR-005 accepted) | |
-| `/product-category/<slug>` | `/product-category/<slug>` | PRESERVE (if ADR-005 accepted) | The live category slugs are unknown and may differ from the catalogue slugs. Confirm them from the crawl |
+| `/about-us` | `/about-us` | PRESERVE | |
+| `/all-products` | `/all-products` | PRESERVE | |
+| `/product-category/<slug>` | `/product-category/<slug>/` | PRESERVE or 301 | The new slugs are `anti-histamine`, `anti-inflammatory`, `antimicrobial`, `cns`, `endocrine-cardiovascular`, `health-wellness`, `male-health`, `otc`. Map each live slug from the crawl and 301 any that differ |
 | `/business-cooperation` | `/business-cooperation` | PRESERVE | |
-| `/contact-us` | `/contact-us` | PRESERVE (if ADR-005 accepted) | |
+| `/contact-us` | `/contact-us` | PRESERVE | |
 | *(individual product URLs, if any)* | `/products/<slug>` | 301 | The pattern is unknown until the crawl |
 | *(template pages)* | none | REMOVE (410) | Optcare, ophthalmology, electricians, cleaners, lorem ipsum and similar |
+
+## Already live in netlify.toml
+
+| From | To | Why |
+|---|---|---|
+| `/about`, `/contact`, `/products` | `/about-us/`, `/contact-us/`, `/all-products/` | Short aliases named in the project directive |
+| `/home/*`, `/about/About.dc.html`, `/business-cooperation/Cooperation.dc.html`, `/contact/Contact.dc.html`, `/brand/Brand.dc.html`, `/mobile` | The matching new page | Links shared during the prototype preview |
+| `/products/Products.dc.html?c=<slug>` / `/products/Product.dc.html?p=<slug>` | `/product-category/<slug>/` / `/products/<slug>/` | Same |

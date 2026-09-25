@@ -4,7 +4,8 @@ Instructions for Codex and other coding agents. They are the same as [CLAUDE.md]
 
 Short version:
 - Read `HANDOVER.md`, `docs/PROJECT_STATE.md`, `docs/ROADMAP.md`, `docs/DECISIONS.md` and `docs/governance/ITQAN_PROJECT_DIRECTIVE.md` before substantial changes.
+- The stack is a Next.js static export on Netlify. Content lives in `src/lib/catalogue.ts`. Run `npm run check` before pushing.
 - Never invent medical or corporate facts. Check `docs/CLIENT_QUESTIONS.md`.
 - Do not edit `design_handoff_itqan_website/`, the frozen design reference.
-- Host on Netlify. Keep every non-production deploy `noindex`. Never touch the email DNS records.
+- Keep every deploy `noindex` until launch. Never touch the email DNS records.
 - Update `HANDOVER.md` and `docs/PROJECT_STATE.md` after meaningful work.
