@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { company } from "@/lib/site";
+import { track } from "@/lib/analytics";
 
 const TYPES = ["General Inquiry", "Business Cooperation", "Product Information"] as const;
 const FIELD_BASE = "w-full rounded-[14px] border border-line bg-chip px-4 py-3 text-[16px] font-normal text-fg [transition:border-color_.3s,background_.3s] focus:border-fg";
@@ -59,6 +60,7 @@ export function ContactForm() {
     try {
       const res = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() });
       setStatus(res.ok ? "sent" : "failed");
+      if (res.ok) track("contact_submit", { enquiry_type: TYPES[type] ?? TYPES[0] });
     } catch {
       setStatus("failed");
     }

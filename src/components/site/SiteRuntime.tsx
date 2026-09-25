@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+import { trackLinkClick } from "@/lib/analytics";
 import { EASE_EXPO, prefersReducedMotion } from "@/lib/motion";
 
 /**
  * Page-level motion that needs JavaScript (README › Interactions & Motion):
- * scroll reveals, word-by-word read, parallax, the facts marquee speed and the
- * page-transition fade. Intro motion is CSS-only (globals.css). Renders nothing.
+ * scroll reveals, word-by-word read, parallax, the facts marquee speed, the
+ * page-transition fade and link-click conversion events. Intro motion is CSS-only (globals.css). Renders nothing.
  */
 export function SiteRuntime() {
   useEffect(() => {
@@ -99,6 +100,15 @@ export function SiteRuntime() {
         setTimeout(() => fade.cancel(), 1500);
       };
     };
+    // Conversion events for tel:, mailto: and cooperation links (lib/analytics.ts).
+    // Capture phase, so they are recorded before any navigation starts.
+    const onTrack = (e: MouseEvent) => {
+      const a = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (a) trackLinkClick(a);
+    };
+    document.addEventListener("click", onTrack, { capture: true });
+    cleanups.push(() => document.removeEventListener("click", onTrack, { capture: true }));
+
     // Coming back through the back/forward cache: undo the fade.
     const onPageShow = (e: PageTransitionEvent) => {
       if (e.persisted) document.body.getAnimations().forEach((a) => a.cancel());

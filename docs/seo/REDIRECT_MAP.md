@@ -14,7 +14,7 @@
    - **REMOVE**: return 410 or 404, with a written justification. Use this for template contamination (Optcare, eye-surgery pages, electricians and so on), which must not be redirected into Itqan pages.
 4. Never send unrelated URLs to the homepage. No redirect chains or loops.
 
-## Known live URL patterns (from the design handoff)
+## Known live URL patterns (design handoff + search-result snippets, 2026-09-25)
 
 ADR-005 was accepted on 2026-09-25: the live URLs are kept, and the new site already serves them.
 
@@ -26,7 +26,10 @@ ADR-005 was accepted on 2026-09-25: the live URLs are kept, and the new site alr
 | `/product-category/<slug>` | `/product-category/<slug>/` | PRESERVE or 301 | The new slugs are `anti-histamine`, `anti-inflammatory`, `antimicrobial`, `cns`, `endocrine-cardiovascular`, `health-wellness`, `male-health`, `otc`. Map each live slug from the crawl and 301 any that differ |
 | `/business-cooperation` | `/business-cooperation` | PRESERVE | |
 | `/contact-us` | `/contact-us` | PRESERVE | |
-| *(individual product URLs, if any)* | `/products/<slug>` | 301 | The pattern is unknown until the crawl |
+| `/product/etoria-60-90-120mg/` | `/products/etoria/` | 301 **(live)** | Old product URLs are `/product/<name-strengths>/`, seen in search snippets |
+| `/product/vertiloc-8-16-24-mg/` | `/products/vertiloc/` | 301 **(live)** | Same |
+| `/product/<other 25 products>/` | `/products/<slug>/` | 301 | Exact old slugs needed from the crawl; don't guess them |
+| `/become-a-partner/` | `/contact-us/?type=cooperation` | 301 **(live)** | The live partner page; its replacement is the cooperation enquiry. Check its content in the crawl |
 | *(template pages)* | none | REMOVE (410) | Optcare, ophthalmology, electricians, cleaners, lorem ipsum and similar |
 
 ## Already live in netlify.toml

@@ -2,7 +2,49 @@
 
 Read this first, then [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and [docs/ROADMAP.md](docs/ROADMAP.md).
 
-## Latest session: 2026-09-25 (Claude Code): Phase 2 production build
+## Latest session: 2026-09-25 (Claude Code): quality gate, analytics events, Phase 3 plans
+
+**Context.** The owner confirmed the Phase 2 push and asked to start the next steps. The live itqanpharma.com and `*.netlify.app` are still blocked by this environment's network policy, so the crawl-dependent migration work waits.
+
+### What changed
+- **Build quality gate** (`scripts/check-site.mjs`, run as `postbuild`; ADR-013).
+  - Netlify now runs `npm run lint && npm run build`, so a failing check stops the deploy.
+  - Adds the `node-html-parser` dev dependency.
+- **Analytics events** (`src/lib/analytics.ts`, `TrackProductView`, plus hooks in `SiteRuntime` and `ContactForm`; ADR-014).
+  - Events: `contact_submit`, `cooperation_cta_click`, `email_click`, `phone_click`, `product_view`, all pushed to `window.dataLayer`.
+  - No tool is loaded and no personal data is sent.
+- **Redirects** in `netlify.toml` for confirmed live URLs:
+  - `/product/etoria-60-90-120mg/` → `/products/etoria/`
+  - `/product/vertiloc-8-16-24-mg/` → `/products/vertiloc/`
+  - `/become-a-partner/` → `/contact-us/?type=cooperation`
+- **Research** (web search; snippets only, because the proxy blocked page fetches) covered:
+  - Itqan's third-party footprint and conflicting facts;
+  - competitors and directories;
+  - brand-name collisions (Dozile, Cresuva, Xaro, Zeeto);
+  - Google, Bing and OpenAI AI-search guidance.
+- **New docs** in `docs/seo/`: SEO_GEO_STRATEGY, KEYWORD_MAP, SEARCH_INTENT_MAP, CONTENT_MAP, COMPETITOR_ANALYSIS, SCHEMA_PLAN, INTERNAL_LINKING_PLAN, ANALYTICS_PLAN, AI_VISIBILITY_PLAN.
+- **Updated docs:** REDIRECT_MAP, ENTITY_MAP, CLIENT_QUESTIONS (#9, #15–18 annotated; #20–23 new), ROADMAP, DECISIONS (ADR-013, ADR-014) and PROJECT_STATE.
+
+### Decisions
+- **Candidate active ingredients stay unpublished.** Search snippets of Itqan's own product pages suggest some (e.g. Etoria = etoricoxib). Snippets aren't a verified source for medical facts, so they're recorded in CLIENT_QUESTIONS #9 until the owner confirms, or the crawl reads them directly from itqanpharma.com.
+- **Unknown old URLs are not guessed.** Only the confirmed old product URLs are redirected; the other 25 `/product/…` URLs wait for the crawl. They 404 until then, which is harmless because the domain hasn't switched yet.
+
+### Tests performed
+- **Quality gate:** passes on the real build (40 indexable pages, 40 sitemap URLs). Negative test with 8 injected faults: all caught, exit code 1. The faults were a broken link, duplicate title, "lorem ipsum" and "CLIENT CONFIRMATION REQUIRED" text, a stray noindex, a missing canonical, missing image dimensions, a missing image file, and a hidden page in the sitemap.
+- **Analytics:** all 5 events fire with the expected parameters in Chromium, with no third-party requests.
+- **Redirects** verified with `netlify dev`: 301 with and without the trailing slash; unknown `/product/x/` returns 404.
+- `npm run check` passes (lint, typecheck, build and the gate).
+
+### Next recommended action
+1. **Owner:**
+   - Allow `itqanpharma.com` and `courageous-caramel-8493e6.netlify.app` in the environment's network settings.
+   - Enable Netlify form detection and set the notification email.
+   - Forward CLIENT_QUESTIONS to Itqan, especially #9 (ingredients), #16 (address), #18 (manufacturer/Sana) and #3 (DNS).
+2. **Next agent, with network access:**
+   - Crawl the live site and complete REDIRECT_MAP (all 27 `/product/` URLs, categories, template pages → 410).
+   - Verify the live preview's headers and link previews.
+
+## Previous session: 2026-09-25 (Claude Code): Phase 2 production build
 
 ### Why
 The owner found the prototype preview slow, especially at the start and on phones. They asked for it to be faster and more mobile-friendly **without changing the design**. They answered the Phase 2 decisions:

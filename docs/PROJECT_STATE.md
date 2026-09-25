@@ -42,7 +42,9 @@ src/lib/catalogue.ts            single content source (27 products, 8 categories
 src/lib/site.ts                 routes, company contacts, SITE_URL
 src/lib/seo.ts                  per-page metadata and JSON-LD builders
 src/lib/images.generated.ts     image manifest (generated; do not edit)
+src/lib/analytics.ts            conversion events → window.dataLayer (no tool loaded)
 scripts/optimize-images.mjs     image pipeline
+scripts/check-site.mjs          post-build quality gate (runs on every build)
 public/__forms.html             Netlify Forms definition
 design_handoff_itqan_website/   frozen design reference (never edit)
 ```
@@ -55,13 +57,15 @@ Everything is specified in `design_handoff_itqan_website/README.md`.
 ## Completed
 - Phase 0 (foundation) and Phase 1 (prototype preview).
 - **Phase 2 build:** all pages on the live URLs, with verified fidelity, speed, accessibility and SEO basics. See HANDOVER.md for the evidence.
+- **Build quality gate** (ADR-013) and **analytics events** (ADR-014).
+- **Phase 3 plans:** the full `docs/seo/` set, and redirects for the confirmed old URLs.
 
 ## In progress
 - Owner and friends reviewing the new preview (Phase 1b).
 
 ## Next priorities
 1. The owner enables Netlify **form detection** and sets the notification email (DEPLOYMENT.md).
-2. Allow `itqanpharma.com` in this environment's network settings (or crawl elsewhere) to complete the redirect map (Phase 3).
+2. Allow `itqanpharma.com` in this environment's network settings (or crawl elsewhere) to complete the redirect map (Phase 3). Old product URLs follow `/product/<name-strengths>/`; only two are confirmed.
 3. Get the client's answers in [CLIENT_QUESTIONS.md](CLIENT_QUESTIONS.md), especially DNS/email ownership and the product data.
 
 ## Known issues

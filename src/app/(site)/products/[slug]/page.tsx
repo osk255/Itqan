@@ -3,6 +3,7 @@ import { getProduct, products } from "@/lib/catalogue";
 import { routes } from "@/lib/site";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { TrackProductView } from "@/components/products/TrackProductView";
 import { Picture } from "@/components/ui/Picture";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Breadcrumbs, HeroGlow, PillLink, intro } from "@/components/ui/primitives";
@@ -48,6 +49,7 @@ export default async function ProductPage({ params }: Params) {
 
   return (
     <>
+      <TrackProductView product={p.name} category={p.categoryFull} />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Products", path: routes.products },

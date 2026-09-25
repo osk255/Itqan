@@ -21,7 +21,7 @@ Status key: **Open** · **Answered** (record the answer and its source) · **Dro
 | # | Item | Status |
 |---|---|---|
 | 8 | Production capacity per dosage form | Open |
-| 9 | Active ingredient and dosage form for each of the 27 products | Open |
+| 9 | Active ingredient and dosage form for each of the 27 products. *Research lead (2026-09-25):* search snippets of the live product pages suggest Etoria = etoricoxib, Cresuva = rosuvastatin, Dozile = donepezil, Vertiloc = betahistine, Emperor = empagliflozin, Zeeto = azithromycin, Xaro = rivaroxaban and SuperDal = vitamin D3. These are unverified and **not published**. Confirm them and supply the rest. | Open |
 | 10 | Patient leaflets / SmPC documents | Open |
 | 11 | Units for **Ales "5"** and **Pymol "500"** | Open |
 | 12 | Working hours | Open |
@@ -32,8 +32,12 @@ Status key: **Open** · **Answered** (record the answer and its source) · **Dro
 | # | Item | Status |
 |---|---|---|
 | 14 | The home-page facts strip says **"30+ · Years of experience in this field"**. The About page attributes the 30+ years to **Itqan's founders**, and the company's first product was in 2019. Should the home strip also say "founders' experience", so it isn't read as company age? | Open |
-| 15 | Approved markets, verbatim from the current site: "Jordan, Iraq, Lebanon, Sudan, Yemen, Libya, Kazakhstan and centrally in GCC and nationally in Kuwait, UAE, Oman". Registration "in process" with Swissmedic and the EU. Is this still current? | Open |
-| 16 | A full street address for the Amman facility, for Organization schema and Google Business Profile | Open |
-| 17 | Official social profiles beyond Facebook and LinkedIn, for `sameAs` | Open |
-| 18 | Product pages show **"Manufacturer: Itqan Pharmaceutical Industries, Amman — Jordan"** (from the design). Is Itqan the manufacturer of all 27 products, or are some licensed or distributed? This is a medical and corporate fact that appears on 27 pages. | Open |
+| 15 | Approved markets, verbatim from the current site: "Jordan, Iraq, Lebanon, Sudan, Yemen, Libya, Kazakhstan and centrally in GCC and nationally in Kuwait, UAE, Oman". Registration "in process" with Swissmedic and the EU. Is this still current? The JAPM member page describes contract manufacturing for the Jordan and Iraq markets only, which may be out of date. | Open |
+| 16 | A full street address for the Amman facility, for Organization schema and Google Business Profile. Third-party sources disagree: King Abdullah II Ibn Al-Hussein Industrial City (Sahab free zone), per JAPM and D&B; and "15 Naeem bin Moqren St, Hay Alzahra, Marka, Amman 11131", per Pharmchoices. Is one the office and the other the factory? | Open |
+| 17 | Official social profiles beyond Facebook and LinkedIn, for `sameAs`. The site links a Facebook *share* link; the page itself appears to be facebook.com/ItqanPharma. Confirm it, so `sameAs` can use the page URL. | Open |
+| 18 | Product pages show **"Manufacturer: Itqan Pharmaceutical Industries, Amman — Jordan"** (from the design). Is Itqan the manufacturer of all 27 products, or are some licensed or distributed? This is a medical and corporate fact that appears on 27 pages. Sana Pharma, another JAPM member, also lists "Etoria 60, 90 and 120 mg". What is the relationship: licensing, or co-marketing? | Open |
 | 19 | The live site's **category and product URLs**. The new site uses `/product-category/<slug>/` with the design's slugs (e.g. `cns`, `otc`). If the live slugs differ, they need 301s to protect existing search rankings. | Open (needs the crawl or Search Console) |
+| 20 | The company's **official Arabic name**, exactly as registered. Arabic brand searches are likely for a Jordanian company, and the name belongs in `Organization.alternateName`. | Open |
+| 21 | **Legal founding year.** Directories (LinkedIn, aggregators) say 2017; the site says the first product was in 2019. Both can be true, but only the confirmed founding date may appear in `Organization.foundingDate`. | Open |
+| 22 | **Emperor strengths.** The site says "10 & 20 mg". Confirm this against the registered strengths. | Open |
+| 23 | **Third-party listings to claim or correct (off-page):** PharmaceuticalBank has 4 duplicate profiles; HalaBazaar publishes an employee's personal email and mobile number; Pharmchoices may list an old address. Who at Itqan can claim and correct these? | Open |

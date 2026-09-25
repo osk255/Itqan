@@ -147,3 +147,35 @@ Date: 2026-09-25 · Status: Accepted
 
 - **Font:** Host Grotesk 400/500/600 comes from `@fontsource/host-grotesk` through `next/font/local`, so builds never depend on Google Fonts. Weight 700 is used only on the brand sheet and is not preloaded.
 - **Canonical origin:** `SITE_URL` falls back to Netlify's build variable `URL` (the site's primary address), then to `https://itqanpharma.com`. Canonicals, Open Graph URLs and the sitemap therefore point at the preview today, and at itqanpharma.com automatically once that domain is made primary.
+
+## ADR-013: A build-time quality gate blocks bad deploys
+
+Date: 2026-09-25 · Status: Accepted
+
+**Context.** The owner will iterate quickly on feedback, and each push deploys straight to the shared preview. The directive and SEO constitution §52 ask for automated checks.
+
+**Decision.**
+- `scripts/check-site.mjs` runs as `postbuild` over `out/`. It checks:
+  - title, description, canonical and H1 on every indexable page, with titles and descriptions unique;
+  - noindex only on hidden pages;
+  - internal links and image files resolve;
+  - every image has alt text and dimensions;
+  - JSON-LD parses;
+  - the sitemap matches the pages, and robots.txt names it;
+  - no template contamination and no "CLIENT CONFIRMATION REQUIRED" marker;
+  - a 450 KB image budget.
+- Netlify runs `npm run lint && npm run build`. Any failure stops the deploy, so the previous version stays live.
+- No separate CI service is added; Netlify's build is the pipeline.
+
+**Evidence.** Negative-tested with 8 injected faults, all caught (see HANDOVER).
+
+## ADR-014: Vendor-neutral analytics events, no tool until approved
+
+Date: 2026-09-25 · Status: Accepted
+
+**Decision.**
+- The conversion events `contact_submit`, `cooperation_cta_click`, `email_click`, `phone_click` and `product_view` are pushed to `window.dataLayer` (`src/lib/analytics.ts`). They carry no personal data.
+- No analytics script loads until the client approves a tool and the consent approach (CLIENT_QUESTIONS #6).
+- Connecting GTM or GA4 later is a single loader component (docs/seo/ANALYTICS_PLAN.md).
+
+**Consequences.** Zero third-party requests today (verified), and the events are ready the day a tool is approved.

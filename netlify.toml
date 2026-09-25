@@ -6,7 +6,10 @@
 # reference and is no longer deployed.
 
 [build]
-  command = "npm run build"
+  # Lint, then `next build` (includes the TypeScript check), then the post-build
+  # quality gate (scripts/check-site.mjs). Any failure stops the deploy and the
+  # previous deploy stays live.
+  command = "npm run lint && npm run build"
   publish = "out"
 
 [build.environment]
@@ -34,6 +37,22 @@
 [[redirects]]
   from = "/products"
   to = "/all-products/"
+  status = 301
+
+# Live itqanpharma.com URLs whose new address differs, confirmed so far (from
+# search-result snippets, 2026-09-25). The full map needs the Phase 3 crawl:
+# docs/seo/REDIRECT_MAP.md. Old product pages were /product/<name-strengths>/.
+[[redirects]]
+  from = "/product/etoria-60-90-120mg/"
+  to = "/products/etoria/"
+  status = 301
+[[redirects]]
+  from = "/product/vertiloc-8-16-24-mg/"
+  to = "/products/vertiloc/"
+  status = 301
+[[redirects]]
+  from = "/become-a-partner/"
+  to = "/contact-us/?type=cooperation"
   status = 301
 
 # Links shared during the Phase 1 prototype preview keep working.

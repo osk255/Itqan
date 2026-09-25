@@ -50,3 +50,17 @@ Anti-histamine · Anti-inflammatory · Antimicrobial · Central Nervous System �
 - Per-product active ingredient, dosage form and leaflets
 
 See [../CLIENT_QUESTIONS.md](../CLIENT_QUESTIONS.md).
+
+## Third-party corroboration (research 2026-09-25, from search snippets; see COMPETITOR_ANALYSIS)
+
+| Source | What it says | Consistent with the site? |
+|---|---|---|
+| JAPM member page (japm.com/node/122) | Address: King Abdullah II Ibn Al-Hussein Industrial City, Sahab (free zone). Contract manufacturing for the Jordan and Iraq markets; solid oral forms | Address not on the site yet (#16); market list older or narrower (#15) |
+| LinkedIn (company/itqan-pharmaceutical-industries) | Founded 2017; 51–200 employees | Founding year unconfirmed (#21). Headcount is not used anywhere |
+| D&B, ZoomInfo, Crunchbase, Lusha | Company profiles | Check the name and NAP |
+| Pharmchoices list | Address in Marka, Amman | Conflicts with Sahab (#16) |
+| Made in Jordan portal | Factory product listing | Check |
+| GS1 (GOSCAN) | GLN 6251991000003 | Identifier only; not used on the site |
+
+**Name collisions:** ITQAN Industrial (Saudi Arabia), ITQAN (Qatar, medical equipment), Al Itqan (Dubai), Itqan Systems and ITQAN (Egypt) are unrelated. Always use the full legal name with "Amman, Jordan".
+

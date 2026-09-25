@@ -22,7 +22,7 @@ Next.js 16 static export (`out/`) on Netlify, TypeScript strict, Tailwind v4. Co
 
 ## Commands
 - `npm run dev`: local dev server.
-- `npm run check`: lint + typecheck + production build. Run it before every push.
+- `npm run check`: lint + typecheck + production build + the quality gate (`scripts/check-site.mjs`). Run it before every push. Netlify runs the same checks and refuses to deploy on failure.
 - `npm run images`: regenerate `public/images` after an original asset changes.
 - `npx netlify-cli dev --offline --framework "#static" --dir out`: serve the built site with the `netlify.toml` rules.
 

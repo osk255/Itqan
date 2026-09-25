@@ -10,8 +10,8 @@ The site goes from design prototype to production in six phases. Each phase ends
 | 1 | Netlify design preview | **Done** | https://courageous-caramel-8493e6.netlify.app (noindex) |
 | 1b | Feedback round | **In progress** | Triaged feedback in [FEEDBACK.md](FEEDBACK.md) |
 | 2 | Production build | **Built. Owner review on the preview** | Next.js static site with the same design, fast on mobile |
-| 3 | SEO, GEO and URL migration | Next. Needs access to itqanpharma.com | Full redirect map, keyword/intent maps, schema plan |
-| 4 | Forms, analytics and security | Partly done | Form live once Netlify form detection is on; analytics pending approval |
+| 3 | SEO, GEO and URL migration | **In progress:** plans written, gate live; the crawl is blocked | Full redirect map, keyword/intent maps, schema plan |
+| 4 | Forms, analytics and security | Partly done | Form live once Netlify form detection is on; analytics events ready, tool pending approval |
 | 5 | Launch on itqanpharma.com | After 3 and 4 plus client sign-off | Live site, email untouched |
 | 6 | Post-launch | Ongoing | Monitoring, content the client supplies later |
 
@@ -79,21 +79,30 @@ Owner decisions, 2026-09-25:
 
 **Still open in Phase 2:** owner and friends review the new preview; design notes go back to Claude Design (ADR-011).
 
-## Phase 3: SEO, GEO and URL migration (next)
+## Phase 3: SEO, GEO and URL migration (in progress)
+
+**Done on 2026-09-25:**
+- A build quality gate (ADR-013).
+- Research into competitors, directories, brand-name collisions and AI-search guidance.
+- New docs: SEO_GEO_STRATEGY, KEYWORD_MAP, SEARCH_INTENT_MAP, CONTENT_MAP, COMPETITOR_ANALYSIS, SCHEMA_PLAN, INTERNAL_LINKING_PLAN, ANALYTICS_PLAN, AI_VISIBILITY_PLAN.
+- 301s for the confirmed old URLs (`/product/etoria-60-90-120mg/`, `/product/vertiloc-8-16-24-mg/`, `/become-a-partner/`).
+- Conflicting third-party facts logged as CLIENT_QUESTIONS #9, #15–18 and #21–23.
+
+**Remaining:**
 
 - **Crawl the live itqanpharma.com.** This environment's network policy blocks it: allow the domain in the environment settings, or run the crawl elsewhere.
 - **Complete [seo/REDIRECT_MAP.md](seo/REDIRECT_MAP.md):**
   - Confirm the live category slugs and any product URLs.
   - Add a 301 for each one that differs.
   - Send template-contamination pages to 410.
-- **Write the remaining SEO docs** from real research:
-  - KEYWORD_MAP, SEARCH_INTENT_MAP, SCHEMA_PLAN, INTERNAL_LINKING_PLAN, AI_VISIBILITY_PLAN.
 - **Consider category H1s:** the design keeps "Products" as the H1 on category pages, and a category-specific H1 would be stronger. That's a design decision for Claude Design.
-- **Automated checks at build:** broken links, duplicate titles, stray `noindex`, sitemap URLs that don't return 200.
+- **Off-page entity consistency:** fix JAPM, D&B, Pharmchoices and PharmaceuticalBank, and add a CPHI Online profile (AI_VISIBILITY_PLAN). This needs someone at Itqan.
 
 ## Phase 4: Forms, analytics and security (partly done)
 
-- **Done:** Netlify Forms wiring, honeypot, security headers, `npm audit` (0 vulnerabilities), and no third-party scripts.
+- **Done:**
+  - Netlify Forms wiring, honeypot, security headers, `npm audit` (0 vulnerabilities), and no third-party scripts.
+  - Conversion events on `dataLayer`, ready for GA4 or GTM (ADR-014, ANALYTICS_PLAN).
 - **Owner:**
   - Enable **form detection** in Netlify.
   - Set the notification email (CLIENT_QUESTIONS #7).

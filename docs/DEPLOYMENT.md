@@ -6,7 +6,8 @@ Hosting: **Netlify** (chosen by the project owner; see ADR-002 in [DECISIONS.md]
 
 - **Site:** https://courageous-caramel-8493e6.netlify.app. It deploys from branch `claude/sharp-turing-9bb810`, the repo's only branch, and every push redeploys automatically.
 - **Config:** [`netlify.toml`](../netlify.toml) at the repo root, which overrides the settings in the Netlify UI:
-  - build command `npm run build`, publish directory `out`, Node 22;
+  - build command `npm run lint && npm run build`, where the build ends with the quality gate (ADR-013); publish directory `out`, Node 22;
+  - a failing lint, typecheck or gate stops the deploy, and the previous deploy stays live. The Netlify deploy log shows the reason;
   - `NETLIFY_NEXT_PLUGIN_SKIP=true`, because the site is a plain static export (ADR-006);
   - 301 redirects, the preview `noindex` header, security headers and cache headers.
 - **Environment variables:** none are required. `SITE_URL` is optional; without it, canonical URLs use Netlify's `URL`, the site's primary address (ADR-012).
