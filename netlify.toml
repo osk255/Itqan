@@ -1,0 +1,77 @@
+# Netlify configuration for the Itqan design preview (Phase 1).
+#
+# This publishes the Claude Design handoff prototype exactly as delivered.
+# There is no build step: the pages load their own runtime (support.js) and
+# libraries from unpkg. The frontend files under design_handoff_itqan_website/
+# are a frozen reference and must not be edited to fix deployment issues;
+# change this file instead. See docs/DEPLOYMENT.md and docs/DECISIONS.md.
+#
+# design_handoff_itqan_website/site/netlify.toml is the designer's original
+# file. Git-based deploys read THIS file (repo root), not that one.
+
+[build]
+  publish = "design_handoff_itqan_website/site"
+
+# ---------------------------------------------------------------------------
+# Clean URLs -> prototype pages (status 200 = rewrite, address bar unchanged).
+# Pages use relative paths ("./support.js", "../assets/..."), which resolve
+# correctly from both "/about" and "/about/" because every folder carries its
+# own copy of support.js.
+# ---------------------------------------------------------------------------
+
+# force = true: site/index.html (a meta-refresh stub) would otherwise shadow
+# this rule, and "/" would bounce to /home/Home.dc.html instead of rendering.
+[[redirects]]
+  from = "/"
+  to = "/home/Home.dc.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/about"
+  to = "/about/About.dc.html"
+  status = 200
+
+[[redirects]]
+  from = "/products"
+  to = "/products/Products.dc.html"
+  status = 200
+
+[[redirects]]
+  from = "/business-cooperation"
+  to = "/business-cooperation/Cooperation.dc.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact/Contact.dc.html"
+  status = 200
+
+[[redirects]]
+  from = "/brand"
+  to = "/brand/Brand.dc.html"
+  status = 200
+
+# Six live pages in 390x844 phone frames, so reviewers on a laptop can see
+# the mobile layout side by side. A 302 rather than a rewrite: Netlify does not
+# rewrite to a filename containing a space (verified with netlify dev).
+[[redirects]]
+  from = "/mobile"
+  to = "/Mobile%20Preview.dc.html"
+  status = 302
+
+# ---------------------------------------------------------------------------
+# Headers
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Preview only: keep this deployment out of search indexes so it never
+    # competes with itqanpharma.com. Remove when production launches on the
+    # real domain (see docs/seo/LAUNCH_CHECKLIST.md).
+    X-Robots-Tag = "noindex, nofollow"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"

@@ -1,0 +1,37 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/"
+  to = "/home/Home.dc.html"
+  status = 200
+[[redirects]]
+  from = "/about"
+  to = "/about/About.dc.html"
+  status = 200
+[[redirects]]
+  from = "/products"
+  to = "/products/Products.dc.html"
+  status = 200
+[[redirects]]
+  from = "/business-cooperation"
+  to = "/business-cooperation/Cooperation.dc.html"
+  status = 200
+[[redirects]]
+  from = "/contact"
+  to = "/contact/Contact.dc.html"
+  status = 200
+[[redirects]]
+  from = "/brand"
+  to = "/brand/Brand.dc.html"
+  status = 200
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

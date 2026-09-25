@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products — Itqan Pharmaceutical Industries</title>
+<meta name="description" content="The Itqan Pharma product portfolio across eight therapeutic categories.">
+<meta property="og:title" content="Products — Itqan Pharmaceutical Industries">
+<meta property="og:description" content="The Itqan Pharma product portfolio across eight therapeutic categories.">
+<meta property="og:image" content="../assets/brand/logo.png">
+<link rel="icon" href="../assets/brand/logo.png">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("itqan-theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+:root{--ink:#0e0a12;--bone:#f3efe8;--plum:#52276f;--lime:#bcd155;--sky:#1ea9e0;--display:"Host Grotesk",system-ui,sans-serif;--body:"Host Grotesk",system-ui,sans-serif;
+--bg:#0e0a12;--bg-2:#161019;--fg:#f3efe8;--mute:#a9a0b2;--line:rgba(243,239,232,.14);--chip:rgba(243,239,232,.06);--accent:#f3efe8;--on-accent:#0e0a12;--hi:#cfe07a;--label:#5cc3ec;--scroll:#6b3a90;--panel:#f3efe8;--on-panel:#1a1020;--panel-mute:#5f566a;--panel-line:rgba(26,16,32,.14);--glow:rgba(123,69,163,.32)}
+html[data-theme=light]{--bg:#f6f3ee;--bg-2:#ece7df;--fg:#1a1020;--mute:#5d5468;--line:rgba(26,16,32,.13);--chip:rgba(26,16,32,.05);--accent:#52276f;--on-accent:#ffffff;--hi:#52276f;--label:#0d6c93;--scroll:#52276f;--panel:#140d19;--on-panel:#f3efe8;--panel-mute:#a9a0b2;--panel-line:rgba(243,239,232,.14);--glow:rgba(82,39,111,.14)}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .5s,color .5s}
+a{color:var(--hi)}a:hover{color:var(--fg)}
+::selection{background:var(--lime);color:var(--ink)}
+:focus-visible{outline:2px solid var(--sky);outline-offset:3px}
+img{display:block;max-width:100%}
+html{scrollbar-width:thin;scrollbar-color:var(--scroll,#52276f) var(--bg)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--scroll,#52276f);border-radius:999px;border:2px solid var(--bg)}::-webkit-scrollbar-thumb:hover{background:var(--sky)}
+[style*="overflow-x:auto"]::-webkit-scrollbar{display:none}
+html[data-theme=light] [data-logo=dark],html:not([data-theme=light]) [data-logo=light]{display:none!important}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<a href="#main" style="position:absolute;left:-9999px;top:8px;z-index:100;background:var(--lime);color:var(--ink);padding:10px 14px;font-weight:600" style-focus="left:8px">Skip to content</a>
+<header style="{{ headerStyle }}">
+  <div style="max-width:1560px;margin:0 auto;padding:0 clamp(20px,4vw,56px);height:76px;display:flex;align-items:center;gap:20px">
+    <a href="../home/Home.dc.html" aria-label="Itqan Pharma — home" style="display:flex;align-items:center;margin-right:auto"><img decoding="async" data-logo="dark" src="../assets/brand/logo-reversed.png" alt="Itqan Pharma — Fueling wellness" style="height:46px;width:auto"><img decoding="async" data-logo="light" src="../assets/brand/logo.png" alt="Itqan Pharma — Fueling wellness" style="height:46px;width:auto"></a>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Primary" style="display:flex;align-items:center;gap:2px"><a href="../home/Home.dc.html" style="color:var(--fg);text-decoration:none;font:500 15px/1 var(--body);padding:10px 14px;border-radius:999px;transition:background .3s;" style-hover="background:var(--chip)">Home</a><a href="../about/About.dc.html" style="color:var(--fg);text-decoration:none;font:500 15px/1 var(--body);padding:10px 14px;border-radius:999px;transition:background .3s;" style-hover="background:var(--chip)">About Us</a><a href="../products/Products.dc.html" aria-current="page" style="color:var(--fg);text-decoration:none;font:500 15px/1 var(--body);padding:10px 14px;border-radius:999px;transition:background .3s;background:var(--chip)" style-hover="background:var(--chip)">Products</a><a href="../business-cooperation/Cooperation.dc.html" style="color:var(--fg);text-decoration:none;font:500 15px/1 var(--body);padding:10px 14px;border-radius:999px;transition:background .3s;" style-hover="background:var(--chip)">Business Cooperation</a><a href="../contact/Contact.dc.html" style="color:var(--fg);text-decoration:none;font:500 15px/1 var(--body);padding:10px 14px;border-radius:999px;transition:background .3s;" style-hover="background:var(--chip)">Contact Us</a></nav>
+    </sc-if>
+    <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeAria }}" style="height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--fg);font:500 13px var(--body);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .3s" style-hover="background:var(--chip)"><span aria-hidden="true" style="{{ themeDot }}"></span>{{ themeLabel }}</button>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <a href="../contact/Contact.dc.html?type=cooperation" style="display:flex;align-items:center;gap:10px;height:44px;padding:0 20px;border-radius:999px;background:var(--accent);color:var(--on-accent);text-decoration:none;font:600 14px var(--body);transition:filter .3s,transform .3s" style-hover="filter:brightness(1.08);transform:translateY(-1px)">Become a Partner</a>
+    </sc-if>
+    <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+      <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-controls="mobile-menu" style="height:44px;padding:0 18px;border-radius:999px;border:0;background:var(--fg);color:var(--bg);font:600 14px var(--body);cursor:pointer">{{ menuLabel }}</button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <nav id="mobile-menu" aria-label="Mobile" style="position:fixed;top:76px;left:0;right:0;height:calc(100dvh - 76px);z-index:60;background:var(--bg);padding:8px 20px 32px;display:flex;flex-direction:column;overflow:auto">
+      <a data-menu-item="" href="../home/Home.dc.html" style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line);color:var(--fg);text-decoration:none;font:600 32px/1.1 var(--display);letter-spacing:-.02em">Home<span style="font:500 13px var(--body);color:var(--mute)">01</span></a><a data-menu-item="" href="../about/About.dc.html" style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line);color:var(--fg);text-decoration:none;font:600 32px/1.1 var(--display);letter-spacing:-.02em">About Us<span style="font:500 13px var(--body);color:var(--mute)">02</span></a><a data-menu-item="" href="../products/Products.dc.html" aria-current="page" style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line);color:var(--fg);text-decoration:none;font:600 32px/1.1 var(--display);letter-spacing:-.02em">Products<span style="font:500 13px var(--body);color:var(--mute)">03</span></a><a data-menu-item="" href="../business-cooperation/Cooperation.dc.html" style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line);color:var(--fg);text-decoration:none;font:600 32px/1.1 var(--display);letter-spacing:-.02em">Business Cooperation<span style="font:500 13px var(--body);color:var(--mute)">04</span></a><a data-menu-item="" href="../contact/Contact.dc.html" style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line);color:var(--fg);text-decoration:none;font:600 32px/1.1 var(--display);letter-spacing:-.02em">Contact Us<span style="font:500 13px var(--body);color:var(--mute)">05</span></a>
+      <div style="margin-top:28px"><a href="../contact/Contact.dc.html?type=cooperation" style="display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:56px;min-width:min(220px,100%);padding:0 8px 0 24px;border-radius:999px;background:var(--accent);color:var(--on-accent);text-decoration:none;font:600 15px var(--body);transition:transform .4s cubic-bezier(.2,.7,.1,1),filter .3s" style-hover="transform:translateY(-2px);filter:brightness(1.08)">Become a Partner<span aria-hidden="true" style="width:40px;height:40px;border-radius:50%;background:var(--on-accent);color:var(--accent);display:grid;place-items:center;font-size:17px">→</span></a></div>
+      <div style="margin-top:auto;padding-top:28px;display:grid;gap:8px;font:400 15px var(--body)"><a href="tel:+96264026371" style="color:var(--fg)">+962 6 402 6371</a><a href="mailto:info@itqanpharma.com" style="color:var(--fg)">info@itqanpharma.com</a></div>
+    </nav>
+  </sc-if>
+</header>
+<main id="main">
+<section style="position:relative;overflow:hidden">
+  <div aria-hidden="true" data-parallax="-0.15" style="position:absolute;right:-15vw;top:-30vw;width:min(90vw,1000px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent 72%);pointer-events:none"></div>
+  <div style="position:relative;max-width:1560px;margin:0 auto;padding:clamp(36px,5vw,72px) clamp(20px,4vw,56px) clamp(48px,6vw,96px);display:flex;flex-direction:column;gap:clamp(18px,2vw,26px)">
+    <nav aria-label="Breadcrumb"><ol style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;font:500 14px var(--body);color:var(--mute)"><li style="display:flex;gap:6px"><a href="../home/Home.dc.html" style="color:var(--mute);text-decoration:none" style-hover="color:var(--fg)">Home</a><span aria-hidden="true">/</span></li><li aria-current="page" style="color:var(--fg)">Products</li></ol></nav><h1 style="margin:0;font:600 clamp(40px,5.6vw,92px)/.95 var(--display);letter-spacing:-.024em"><span style="display:block;clip-path:inset(-.15em -100vw 0 -100vw);padding-bottom:.05em"><span data-line="" style="display:inline-block">Products</span></span></h1>
+    <div style="display:flex;flex-wrap:wrap;gap:24px 56px;align-items:flex-end;justify-content:space-between"><p data-reveal="up" data-delay="350" style="margin:0;max-width:52ch;font:400 clamp(17px,1.4vw,21px)/1.55 var(--body);color:var(--mute);text-wrap:pretty">{{ summary }}</p></div>
+  </div></section>
+<div style="position:sticky;top:76px;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div role="toolbar" aria-label="Filter by therapeutic category" style="max-width:1560px;margin:0 auto;padding:12px clamp(20px,4vw,56px);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="9"><button type="button" aria-pressed="{{ f.on }}" onClick="{{ f.select }}" style="{{ f.style }}">{{ f.title }}<span style="font:500 12px var(--body);opacity:.7">{{ f.count }}</span></button></sc-for>
+</div></div>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+<section aria-labelledby="{{ g.id }}"><div style="max-width:1560px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,4vw,56px) 8px;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px;border-bottom:1px solid var(--line);padding-bottom:16px"><h2 id="{{ g.id }}" style="margin:0;font:600 clamp(26px,3vw,42px)/1.05 var(--display);letter-spacing:-.025em">{{ g.full }}</h2><span style="font:500 15px var(--body);color:var(--mute)">{{ g.countText }}</span></div>
+<ul style="list-style:none;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(46%,230px),1fr))"><sc-for list="{{ g.items }}" as="p" hint-placeholder-count="4"><li data-pkg="" style="min-width:0;scroll-snap-align:start"><a href="{{ p.href }}" style="display:flex;flex-direction:column;height:100%;background:#ffffff;color:#1a1020;border-radius:16px;overflow:hidden;text-decoration:none;transition:transform .5s cubic-bezier(.2,.7,.1,1),box-shadow .5s" style-hover="transform:translateY(-6px);box-shadow:0 30px 60px -28px rgba(82,39,111,.5)"><span style="display:block;aspect-ratio:1/1;padding:9%"><img decoding="async" src="{{ p.image }}" alt="{{ p.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply"></span><span style="display:flex;flex-direction:column;gap:4px;padding:14px 18px 18px;border-top:1px solid rgba(26,16,32,.08)"><span style="font:600 19px/1.15 var(--display);letter-spacing:-.01em">{{ p.name }}</span><span style="font:400 13px/1.35 var(--body);color:#5d5468;min-height:1.35em">{{ p.strengthsText }}</span></span></a></li></sc-for></ul>
+</div></section>
+</sc-for>
+<section style="max-width:1560px;margin:0 auto;padding:clamp(56px,7vw,110px) clamp(20px,4vw,56px);display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-end"><h2 style="margin:0;font:600 clamp(28px,3.4vw,52px)/1.02 var(--display);letter-spacing:-.03em;max-width:20ch">Collaborate with Itqan Pharma to achieve excellence</h2><div style="display:flex;flex-wrap:wrap;gap:12px"><a href="../contact/Contact.dc.html?type=cooperation" style="display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:56px;min-width:min(220px,100%);padding:0 8px 0 24px;border-radius:999px;background:var(--accent);color:var(--on-accent);text-decoration:none;font:600 15px var(--body);transition:transform .4s cubic-bezier(.2,.7,.1,1),filter .3s" style-hover="transform:translateY(-2px);filter:brightness(1.08)">Become a Partner<span aria-hidden="true" style="width:40px;height:40px;border-radius:50%;background:var(--on-accent);color:var(--accent);display:grid;place-items:center;font-size:17px">→</span></a><a href="../contact/Contact.dc.html?type=product" style="display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:56px;min-width:min(220px,100%);padding:0 24px;border-radius:999px;border:1px solid var(--line);color:var(--fg);text-decoration:none;font:600 15px var(--body);transition:background .3s,border-color .3s" style-hover="background:var(--chip);border-color:var(--fg)">Contact Us<span aria-hidden="true">↗</span></a></div></section>
+</main>
+<footer style="border-top:1px solid var(--line);overflow:hidden">
+  <div style="max-width:1560px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,56px) 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:36px;font:400 15px/1.5 var(--body)">
+    <div style="display:flex;flex-direction:column;gap:14px"><span style="font:600 13px var(--body);color:var(--mute)">About</span><p style="margin:0;color:var(--fg);max-width:34ch">Founded in the Hashemite Kingdom of Jordan, Itqan introduced its first product to the Jordanian market in 2019.</p><div style="display:flex;gap:18px"><a href="https://www.facebook.com/share/1JjBmg6u4K/?mibextid=LQQJ4d" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">Facebook</a><a href="https://www.linkedin.com/company/itqan-pharmaceutical-industries/" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">LinkedIn</a></div></div>
+    <nav aria-label="Footer links" style="display:flex;flex-direction:column;gap:10px"><span style="font:600 13px var(--body);color:var(--mute)">Links</span><a href="../about/About.dc.html" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">About</a><a href="../products/Products.dc.html" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">Products</a><a href="../contact/Contact.dc.html" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">Contact</a><a href="../business-cooperation/Cooperation.dc.html" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">Business Cooperation</a></nav>
+    <nav aria-label="Product categories" style="display:flex;flex-direction:column;gap:10px"><span style="font:600 13px var(--body);color:var(--mute)">Categories</span><sc-for list="{{ footCats }}" as="c" hint-placeholder-count="8"><a href="{{ c.href }}" style="color:var(--fg);text-decoration:none" style-hover="color:var(--hi)">{{ c.title }}</a></sc-for></nav>
+    <div style="display:flex;flex-direction:column;gap:10px"><span style="font:600 13px var(--body);color:var(--mute)">Contacts</span><a href="https://maps.app.goo.gl/tRABmUWKA13cP5Dp8" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">Itqan Pharmaceutical Ind. Amman, Jordan</a><a href="tel:+96264026371" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">+962 6 402 6371</a><a href="mailto:info@itqanpharma.com" style="color:var(--fg);text-decoration:none;transition:color .3s" style-hover="color:var(--hi)">info@itqanpharma.com</a></div>
+  </div>
+  <div data-reveal="up" style="max-width:1560px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(20px,4vw,56px) clamp(18px,2vw,26px)"><div style="width:min(100%,1100px)"><img decoding="async" data-logo="dark" src="../assets/brand/logo-reversed.png" alt="" style="width:100%;height:auto"><img decoding="async" data-logo="light" src="../assets/brand/logo.png" alt="" style="width:100%;height:auto"></div></div>
+  <div style="max-width:1560px;margin:0 auto;padding:20px clamp(20px,4vw,56px) 28px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font:400 13px var(--body);color:var(--mute)"><span>©2026 Itqan Pharmaceutical Ind. All rights reserved</span><a href="../brand/Brand.dc.html" style="color:var(--mute)">Brand identity</a></div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;reviewNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review&quot;}}">
+class Component extends DCLogic {
+  state = Object.assign({ data: window.ITQAN || null, mobile: window.innerWidth < 1100, menu: false, scrolled: false, theme: document.documentElement.dataset.theme || "dark" }, this.initState ? this.initState() : {});
+  componentDidMount() {
+    if (!window.ITQAN) { const s = document.createElement("script"); s.src = new URL("../shared/catalogue.js", location.href).href; s.onload = () => this.setState({ data: window.ITQAN }); document.head.appendChild(s); }
+    this.mq = matchMedia("(max-width: 1099px)"); this.onMq = () => this.setState({ mobile: this.mq.matches, menu: false }); this.mq.addEventListener("change", this.onMq);
+    this.reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.onScroll = () => { if (!this.raf) this.raf = requestAnimationFrame(() => { this.raf = 0; this.scrollFx(); }); };
+    addEventListener("scroll", this.onScroll, { passive: true }); addEventListener("resize", this.onScroll);
+    this.onClick = e => { const a = e.target.closest && e.target.closest("a[href]"); if (!a || this.reduce || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target || a.hasAttribute("download")) return; const u = new URL(a.href, location.href); if (u.origin !== location.origin || u.protocol.indexOf("http") !== 0 || (u.pathname === location.pathname && u.hash)) return; e.preventDefault(); const fade = document.body.animate([{ opacity: 1 }, { opacity: 0.001 }], { duration: 200, easing: "ease-in", fill: "forwards" }); fade.onfinish = () => { location.href = u.href; setTimeout(() => fade.cancel(), 1500); }; };
+    document.addEventListener("click", this.onClick);
+    this.onKey = e => { if (e.key === "Escape" && this.state.menu) this.setState({ menu: false }); }; addEventListener("keydown", this.onKey);
+    addEventListener("pageshow", () => { document.body.getAnimations().forEach(a => a.cancel()); });
+    if (!this.reduce) document.body.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, easing: "ease-out" });
+    this.lineIntro(); this.splitWords(); this.motion(); this.scrollFx();
+    this.pageMount && this.pageMount();
+  }
+  componentWillUnmount() { removeEventListener("scroll", this.onScroll); removeEventListener("resize", this.onScroll); document.removeEventListener("click", this.onClick); this.mq && this.mq.removeEventListener("change", this.onMq); this.io && this.io.disconnect(); }
+  componentDidUpdate(pp, ps) {
+    ps = ps || this._ps || {}; this._ps = this.state;
+    requestAnimationFrame(() => this.motion());
+    if (ps.menu !== this.state.menu && this.state.menu && !this.reduce) requestAnimationFrame(() => document.querySelectorAll("[data-menu-item]").forEach((el, i) => el.animate([{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }], { duration: 520, delay: 40 + i * 60, easing: "cubic-bezier(.16,1,.3,1)", fill: "both" })));
+    if (ps.menu !== this.state.menu) document.documentElement.style.overflow = this.state.menu && this.state.mobile ? "hidden" : "";
+    this.pageUpdate && this.pageUpdate(ps);
+  }
+  lineIntro() { if (this.reduce) return; document.querySelectorAll("[data-line]").forEach((el, i) => el.animate([{ transform: "translateY(105%)" }, { transform: "none" }], { duration: 1150, delay: 150 + i * 110, easing: "cubic-bezier(.16,1,.3,1)", fill: "both" })); }
+  splitWords() {
+    document.querySelectorAll("[data-words]").forEach(el => {
+      if (el.__split) return; el.__split = true; const txt = el.textContent.trim(), words = txt.split(/\s+/);
+      el.setAttribute("aria-label", txt); el.textContent = "";
+      words.forEach((w, i) => { const s = document.createElement("span"); s.textContent = w + (i < words.length - 1 ? " " : ""); s.setAttribute("aria-hidden", "true"); s.style.transition = "opacity .3s linear"; el.appendChild(s); });
+    });
+  }
+  scrollFx() {
+    const y = scrollY, vh = innerHeight;
+    if ((y > 24) !== this.state.scrolled) this.setState({ scrolled: y > 24 });
+    document.querySelectorAll("[data-words]").forEach(el => {
+      const r = el.getBoundingClientRect(), p = this.reduce ? 1 : Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.25)));
+      const sp = el.children, n = sp.length; for (let i = 0; i < n; i++) sp[i].style.opacity = 0.18 + 0.82 * Math.min(1, Math.max(0, p * n * 1.1 - i));
+    });
+    if (!this.reduce) document.querySelectorAll("[data-parallax]").forEach(el => { const r = el.parentElement.getBoundingClientRect(); el.style.transform = "translate3d(0," + ((r.top + r.height / 2 - vh / 2) * +el.dataset.parallax).toFixed(1) + "px,0)"; });
+    this.pageScroll && this.pageScroll(vh);
+  }
+  motion() {
+    if (this.reduce) return;
+    this.seen = this.seen || new WeakSet();
+    this.io = this.io || new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.__a && e.target.__a.play(); this.io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll("[data-reveal]").forEach(el => {
+      if (this.seen.has(el)) return; this.seen.add(el);
+      const k = el.dataset.reveal, d = +(el.dataset.delay || 0);
+      const kf = k === "mask" ? [{ clipPath: "inset(100% 0 0 0 round 24px)" }, { clipPath: "inset(0 0 0 0 round 24px)" }] : [{ opacity: 0, transform: "translateY(22px)" }, { opacity: 1, transform: "none" }];
+      const a = el.animate(kf, { duration: k === "mask" ? 1300 : 900, delay: d, easing: "cubic-bezier(.16,1,.3,1)", fill: "both" }); a.pause(); el.__a = a; this.io.observe(el);
+    });
+  }
+  stagger(sel) { if (this.reduce) return; requestAnimationFrame(() => document.querySelectorAll(sel).forEach((el, i) => el.animate([{ opacity: 0, transform: "translateY(36px) scale(.97)" }, { opacity: 1, transform: "none" }], { duration: 750, delay: i * 60, easing: "cubic-bezier(.16,1,.3,1)", fill: "both" }))); }
+  q(k) { try { return new URLSearchParams(location.search).get(k); } catch (e) { return null; } }
+  css(str) { return Object.fromEntries(str.split(";").filter(Boolean).map(d => { const i = d.indexOf(":"); return [d.slice(0, i).trim().replace(/-([a-z])/g, (_, c) => c.toUpperCase()), d.slice(i + 1).trim()]; })); }
+  pHref(p) { return "../products/Product.dc.html?p=" + p.slug; }
+  cell(p) { return Object.assign({}, p, { href: this.pHref(p), alt: p.name + " packaging", strengthsText: p.strengths || "" }); }
+  n2(i) { return String(i + 1).padStart(2, "0"); }
+  marketsList(D) {
+    if (!D) return [];
+    return [].concat(D.markets.national.map(x => [x, "", 0]), D.markets.central.map(x => [x, "", 1]), D.markets.inProgress.map(x => [x, "In registration", 2])).map((x, i) => ({ name: x[0], label: x[1], delay: (i % 8) * 50,
+      style: this.css("display:flex;align-items:center;gap:12px;min-height:56px;padding:0 22px;border-radius:999px;font:600 clamp(16px,1.4vw,21px)/1 var(--display);" + (x[2] === 2 ? "border:1px dashed var(--line);color:var(--mute)" : "border:1px solid var(--line);background:var(--chip)")),
+      dotStyle: this.css("width:9px;height:9px;border-radius:50%;flex:none;" + (x[2] === 2 ? "border:1px solid var(--mute)" : "background:" + (x[2] === 1 ? "var(--sky)" : "var(--lime)"))) }));
+  }
+  base() {
+    const m = this.state.mobile, menuOpen = this.state.menu && m, light = this.state.theme === "light", solid = this.state.scrolled || menuOpen, blur = this.state.scrolled && !menuOpen;
+    const D = this.state.data;
+    return {
+      desktop: !m, mobile: m, menuOpen, menuLabel: menuOpen ? "Close" : "Menu", toggleMenu: () => this.setState(s => ({ menu: !s.menu })),
+      themeLabel: light ? "Dark" : "Light", themeAria: light ? "Switch to dark theme" : "Switch to light theme",
+      themeDot: this.css("width:12px;height:12px;border-radius:50%;border:1.5px solid currentColor;background:" + (light ? "currentColor" : "transparent")),
+      toggleTheme: () => { const t = light ? "dark" : "light"; document.documentElement.dataset.theme = t; try { localStorage.setItem("itqan-theme", t); } catch (e) {} dispatchEvent(new Event("itqan-theme")); this.setState({ theme: t }); },
+      headerStyle: this.css("position:sticky;top:0;z-index:50;transition:background .4s,border-color .4s;border-bottom:1px solid " + (solid ? "var(--line)" : "transparent") + ";background:" + (menuOpen ? "var(--bg)" : solid ? "color-mix(in srgb,var(--bg) 84%,transparent)" : "transparent") + ";backdrop-filter:" + (blur ? "blur(14px)" : "none") + ";-webkit-backdrop-filter:" + (blur ? "blur(14px)" : "none")),
+      review: this.props.reviewNotes ?? false,
+      footCats: (D ? D.categories : []).map(c => ({ title: c.full, href: "../products/Products.dc.html?c=" + c.slug })),
+      forms: (D ? D.dosageForms : []).map((f, i) => ({ n: this.n2(i), label: f, delay: (i % 7) * 60 })),
+      reasons: (D ? D.reasons : []).map((r, i) => ({ n: this.n2(i), label: r })),
+      markets: this.marketsList(D)
+    };
+  }
+  renderVals() { return Object.assign(this.base(), this.page ? this.page(this.state.data) : {}); }
+  initState() { return { filter: this.q("c") || "all" }; }
+  pageUpdate(ps) { if (ps.filter !== undefined && ps.filter !== this.state.filter) this.stagger("[data-pkg]"); }
+  page(D) {
+    const cats = D ? D.categories : [], total = D ? D.products.length : 0;
+    const set = slug => { this.setState({ filter: slug }); try { history.replaceState(null, "", slug === "all" ? location.pathname : "?c=" + slug); } catch (e) {} };
+    const fs = on => this.css("flex:0 0 auto;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;border-radius:999px;cursor:pointer;font:600 14px var(--body);white-space:nowrap;transition:background .35s,color .35s;border:1px solid " + (on ? "var(--fg)" : "var(--line)") + ";background:" + (on ? "var(--fg)" : "transparent") + ";color:" + (on ? "var(--bg)" : "var(--fg)"));
+    const filters = [{ slug: "all", title: "All", count: total }].concat(cats.map(c => ({ slug: c.slug, title: c.full, count: c.count }))).map(f => Object.assign(f, { on: this.state.filter === f.slug, style: fs(this.state.filter === f.slug), select: () => set(f.slug) }));
+    const groups = cats.filter(c => this.state.filter === "all" || c.slug === this.state.filter).map(c => ({ id: "cat-" + c.slug, full: c.full, countText: c.count + (c.count === 1 ? " product" : " products"), items: c.items.map(p => this.cell(p)) }));
+    return { filters, groups, summary: total ? total + " products across " + cats.length + " therapeutic categories." : "" };
+  }
+}
+</script>
+</body>
+</html>
