@@ -4,6 +4,14 @@ export const EASE_EXPO = "cubic-bezier(.16,1,.3,1)";
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/**
+ * True when the 3D logo should not even be downloaded: the browser asks sites to
+ * save data (Chrome's Data Saver, Android "Lite" mode) or has no WebGL 2 at all.
+ */
+export const skip3DLogo = () =>
+  typeof window !== "undefined" &&
+  (!("WebGL2RenderingContext" in window) || (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true);
+
 /** Re-stagger cards after a category switch: 750ms, 60ms apart. */
 export function staggerIn(elements: Iterable<Element>) {
   if (prefersReducedMotion()) return;

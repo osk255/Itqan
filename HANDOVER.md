@@ -2,7 +2,74 @@
 
 Read this first, then [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and [docs/ROADMAP.md](docs/ROADMAP.md).
 
-## Latest session: 2026-09-25 (Claude Code): quality gate, analytics events, Phase 3 plans
+## Latest session: 2026-09-25 (Claude Code): two-tone capsule 3D logo
+
+**Context.** The owner asked for the 3D voxel logo to be rebuilt from pharmaceutical tablets instead of cubes, chose **two-tone capsules**, and asked that it stay fast on every device. The plan was approved first; see ADR-015.
+
+### What changed
+- **`src/components/home/logo3d.ts`:**
+  - Each voxel is now a two-tone capsule, still drawn as a single `InstancedMesh` (one draw call).
+    - A hand-built six-sided capsule with exact normals and a per-vertex `aTone`.
+    - A per-instance `aBack` colour.
+    - A one-line shader patch mixes the two halves.
+  - Colours:
+    - Front halves use the brand colour; letters are bone on dark, as before.
+    - Back halves are white; letters on dark get plum.
+    - Colours switch live with the theme.
+  - Capsules tilt slightly while the logo turns and realign at rest.
+  - The sampling, timings, scroll path, lights and camera are the designer's, unchanged.
+  - **Speed:**
+    - Device tiers: desktop, touch, and low-end (≤2 GB or ≤2 cores).
+    - A frame-time watchdog lowers the resolution if frames are slow.
+    - It draws at 30 fps once still, and not at all when idle with reduced motion.
+    - `powerPreference: "default"`.
+    - The WebGL 2 context is created up front, so a missing GPU returns `null` quietly.
+    - A lost context hands over to the fallback.
+  - New `onInk` option: the brand sheet's panel is ink in both themes, so it always uses the dark-ground colours.
+- **`src/components/home/LogoFallback.tsx` (new):** the flat official logo at the 3D logo's resting place. It is theme-aware; `onInk` always shows the reversed logo.
+- **`HeroStage.tsx`:**
+  - Shows the fallback when WebGL 2 is missing, the context is lost, or Save-Data is on.
+  - The fallback follows the 3D logo's scroll move to the centre, so it never covers the caption.
+- **`BrandLogo3D.tsx`:** the same fallback; passes `onInk`.
+- **`src/lib/motion.ts`:** `skip3DLogo()` (Save-Data, or no WebGL 2 API). In those cases three.js isn't downloaded at all.
+- **Docs:** DECISIONS (ADR-015; ADR-011 notes for Claude Design), PROJECT_STATE and this handover.
+
+### Decisions
+- **Six-sided capsules.** On screen a capsule is 4–11 device pixels across, and close-ups at 2× showed no visible difference between six and eight sides, or between rounded and simpler caps on touch screens.
+- **Short-phone overlap left for Claude Design.** On 375×667 and 320×640 the resting logo overlaps the "Business Cooperation" button. The box version and the prototype do the same, so it's recorded in ADR-011 rather than changed here.
+
+### Tests performed
+- **Visual:**
+  - The 3D logo at 320, 375, 390, 430, 768×1024, 1024×768, 1280, 1440 and 1920, in dark and light themes.
+  - Scroll positions: intro, rest, mid-turn and centred.
+  - 2× close-ups of the capsule shading.
+  - Checked: live theme toggle, brand page, and reduced motion (static, and redrawn only on scroll).
+- **Performance** (software WebGL, same script and machine, two runs each):
+  - Phone: scrolling 11.8 → 11.6 fps (unchanged); idle redraws halved.
+  - Desktop: scrolling 7.6 → 4.3 fps. That's the software renderer's anti-aliasing cost; without it, capsules ran at 8.8 fps.
+  - Full table in ADR-015.
+  - The old box baseline was re-measured, because the first benchmark's scroll was cancelled by the site's smooth scrolling.
+- **Fallbacks**, in both themes and on home and brand pages, with no console errors:
+  - 3D APIs disabled;
+  - no WebGL 2 API;
+  - Save-Data (no three.js request);
+  - forced context loss.
+- **Regression:**
+  - `npm run check` passes.
+  - Interaction suite 37/37.
+  - axe-core: 0 violations on 6 pages × 2 themes.
+  - Overflow sweep: 180 loads, no problems.
+
+### Not tested / limits
+- **Real GPUs and phones.** This sandbox renders WebGL in software. Please check the preview on a real phone and laptop.
+- The designer's GLB/OBJ exporter (`/brand/Logo3D.html`, verbatim) still exports cubes.
+
+### Next recommended action
+1. **Owner:** open the Netlify preview on a phone and a laptop. The hero should assemble from capsules, show the two-tone bodies while scrolling, and stay smooth.
+2. **Owner:** the items from the previous session still stand: network allowlist, Netlify form detection, CLIENT_QUESTIONS.
+3. **Next agent:** relay the ADR-011 notes to Claude Design: capsules, the brand sheet colours, and the short-phone hero overlap.
+
+## Previous session: 2026-09-25 (Claude Code): quality gate, analytics events, Phase 3 plans
 
 **Context.** The owner confirmed the Phase 2 push and asked to start the next steps. The live itqanpharma.com and `*.netlify.app` are still blocked by this environment's network policy, so the crawl-dependent migration work waits.
 
@@ -44,7 +111,7 @@ Read this first, then [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and [docs/R
    - Crawl the live site and complete REDIRECT_MAP (all 27 `/product/` URLs, categories, template pages → 410).
    - Verify the live preview's headers and link previews.
 
-## Previous session: 2026-09-25 (Claude Code): Phase 2 production build
+## Earlier session: 2026-09-25 (Claude Code): Phase 2 production build
 
 ### Why
 The owner found the prototype preview slow, especially at the start and on phones. They asked for it to be faster and more mobile-friendly **without changing the design**. They answered the Phase 2 decisions:

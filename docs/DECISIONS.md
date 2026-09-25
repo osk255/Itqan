@@ -140,6 +140,9 @@ Date: 2026-09-25 · Status: Accepted. These go back to Claude Design as notes, n
 - **Product filters** are links with real URLs (`/product-category/<slug>/`) instead of `?c=` buttons. They still filter in place.
 - **Contact form:** submits to Netlify Forms instead of opening `mailto:`. The thank-you text now says the message was sent.
 - **Header logo:** the dark-theme logo loads eagerly and the light one lazily, so the light logo only downloads for light-theme visitors.
+- **3D logo made of two-tone capsules instead of boxes** (owner request, ADR-015). The designer's GLB/OBJ exporter (`public/brand/Logo3D.html`, kept verbatim) still exports cubes.
+- **Brand sheet 3D logo** keeps its dark-ground colours in both themes, because its panel is ink in both. The prototype switched the letters to plum in light theme, which put plum on ink.
+- **Not changed, for Claude Design:** on short phones (e.g. 375×667, 320×640) the resting 3D logo overlaps the "Business Cooperation" button. The prototype does the same; its hero placement (`y0`, `fitA`) would need a design decision.
 
 ## ADR-012: Self-hosted font; canonical origin from Netlify
 
@@ -179,3 +182,56 @@ Date: 2026-09-25 · Status: Accepted
 - Connecting GTM or GA4 later is a single loader component (docs/seo/ANALYTICS_PLAN.md).
 
 **Consequences.** Zero third-party requests today (verified), and the events are ready the day a tool is approved.
+
+## ADR-015: Two-tone capsule 3D logo, light on every device
+
+Date: 2026-09-25 · Status: Accepted (owner request)
+
+**Context.** The owner asked for the 3D voxel logo to be made of pharmaceutical tablets instead of cubes, chose "two-tone capsules", and asked that it not be heavy on any device. The handoff specifies boxes, so this is a design deviation (ADR-011).
+
+**Decision.**
+- **Look.** Each voxel is a capsule pointing at the viewer. At rest the logo reads as glossy pill ends in the brand colours. While it turns, the full two-tone bodies show:
+
+  | Voxel | Front half | Back half |
+  |---|---|---|
+  | Leaves and "Pharma" (lime, sky) | brand colour | white |
+  | Letters, light theme | plum | white |
+  | Letters, dark theme | bone (as before) | plum |
+
+  Each capsule also tilts slightly, following the same curve as the depth spread, and realigns at rest.
+  The designer's sampling, timings, scroll path, lights and camera are unchanged.
+- **One draw call.** A single `InstancedMesh`. The two tones come from a per-vertex `aTone` attribute and a per-instance `aBack` colour, mixed in a one-line `onBeforeCompile` patch (three.js is pinned at 0.184). The capsule mesh is built by hand with exact normals: six sides, so a capsule that is 4–11 device pixels across still shades round.
+- **Tiers** (`pickQuality` in `logo3d.ts`):
+
+  | Tier | When | Mesh | Pixel ratio cap | Anti-aliasing |
+  |---|---|---|---|---|
+  | Desktop | fine pointer | 60 triangles (rounded caps) | 1.75 | on |
+  | Touch | coarse pointer | 36 triangles | 1.5 | off |
+  | Low-end | ≤2 GB memory or ≤2 cores | 36 triangles | 1.0 | off |
+- **Adaptive.** A frame-time watchdog lowers the pixel ratio in 0.25 steps, down to 1.0, if frames average over 24 ms while moving.
+- **Idle.** Once the logo is assembled, not scrolling and the pointer has settled, only the slow float remains, so it draws at 30 fps. With reduced motion it draws only when the scroll position, size or theme changes.
+- **Battery.** `powerPreference: "default"`, so laptops don't wake the discrete GPU for a hero animation.
+- **Fallback.** The flat official logo (theme-aware, at the 3D logo's resting place, following its scroll move to the centre) appears when:
+  - the browser has no WebGL 2 API or cannot create a context;
+  - the GPU context is lost;
+  - the visitor has Save-Data on.
+
+  In the Save-Data and no-API cases three.js is not downloaded at all.
+
+**Evidence.** Chromium with software WebGL (SwiftShader): the same script, the same machine, two runs each. Absolute numbers are far below any real GPU, so only the comparison matters.
+
+| Profile | Boxes (before) | Capsules (after) |
+|---|---|---|
+| Phone (390×844, 4× CPU throttle): triangles per frame | 28,464 | 85,392 |
+| Phone: scrolling | 11.8 fps | 11.6 fps |
+| Phone: idle draws per second | 13.4 | 10.7 (main thread 21 fps, was 13) |
+| Desktop (1440×900): triangles per frame | 51,312 | 256,560 |
+| Desktop: scrolling | 7.6 fps | 4.3 fps |
+| Desktop: idle draws per second | 8.9 | 4.2 |
+
+- The desktop scroll gap is the software renderer's anti-aliasing. The same capsules without anti-aliasing ran at 8.8 fps. On a GPU, 257k triangles is a small fraction of a frame.
+- Chromium now needs a flag for software WebGL, so visitors without a usable GPU get the flat logo instead.
+- Download: the lazy three.js chunk grows by 0.9 KB gzipped, and the page chunks by 1 KB.
+- Fallbacks are verified with 3D APIs disabled, with no WebGL 2 API, with Save-Data, and with a forced context loss (`WEBGL_lose_context`), in both themes. There are no console errors.
+
+**Consequences.** Real-device checks (a phone and a laptop) happen on the Netlify preview, since this sandbox has no GPU. If a device struggles, the tiers are the first knob: fewer sides, or no anti-aliasing on desktop.
